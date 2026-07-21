@@ -1,8 +1,3 @@
-using Domain.Nodes;
-using Domain.Ports;
+namespace Domain.Graph;
 
-namespace Domain.Graph
-{
-    public sealed record Edge(int NodeFromId, int NodeToId, string PortFrom, string PortTo );
-
-}
+public sealed record Edge(int FromNode, int ToNode, int FromPort, int ToPort);

@@ -5,7 +5,7 @@ namespace Application.ReadyQueue
 {
     public class ReadyQueue : IReadyQueue
     {
-        private readonly Channel<NodeExecution> _queue;
+        private readonly Channel<ExecutionNode> _queue;
 
         public ReadyQueue()
         {
@@ -14,9 +14,9 @@ namespace Application.ReadyQueue
                 FullMode = BoundedChannelFullMode.Wait
             };
 
-            _queue = Channel.CreateBounded<NodeExecution>(options);
+            _queue = Channel.CreateBounded<ExecutionNode>(options);
         }
-        public async ValueTask<NodeExecution> ReadAsync(CancellationToken cts)
+        public async ValueTask<ExecutionNode> ReadAsync(CancellationToken cts)
         {
             if (await _queue.Reader.WaitToReadAsync(cts))
             {
@@ -28,7 +28,7 @@ namespace Application.ReadyQueue
             throw new InvalidOperationException("Канал был закрыт или доступ к нему заблокирован");
         }
 
-        public async ValueTask WriteAsync(NodeExecution node, CancellationToken cts)
+        public async ValueTask WriteAsync(ExecutionNode node, CancellationToken cts)
         {
             if (await _queue.Writer.WaitToWriteAsync(cts))
             {
