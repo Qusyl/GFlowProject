@@ -1,7 +1,7 @@
+using Domain.Graph;
 using Domain.Nodes;
-using Domain.Ports;
 
-namespace Domain.Graph;
+namespace Application.Runtime.Workflow;
 
 public static class WorkflowBuilder
 {
@@ -21,15 +21,15 @@ public static class WorkflowBuilder
 
         return new ExecutionGraph(Nodes, IncomingEdges, OutcomingEdges);
     }
-    private static Dictionary<int, Node> BuildNodes(Workflow workflow)
+    private static Dictionary<int, NodeExecution> BuildNodes(Workflow workflow)
     {
-        var nodes = new Dictionary<int, Node>(workflow.Nodes.Count);
+        var nodes = new Dictionary<int, NodeExecution>(workflow.Nodes.Count);
 
         foreach (var node in workflow.Nodes)
         {
             if (node is not null)
             {
-                nodes.TryAdd(node.Id, node);
+                nodes.TryAdd(node.Node.Id, node);
             }
         }
         return nodes;

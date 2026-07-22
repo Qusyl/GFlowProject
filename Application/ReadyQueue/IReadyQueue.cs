@@ -3,8 +3,8 @@ namespace Application.ReadyQueue
 {
     public interface IReadyQueue
     {
-        ValueTask<NodeExecution> ReadAsync(CancellationToken cts);
+        ValueTask<NodeExecution> ReadAsync(CancellationToken cts = default);
 
-        ValueTask WriteAsync(NodeExecution node, CancellationToken cts);
+        ValueTask WriteAsync(NodeExecution node, CancellationToken cts = default);
     }
 }

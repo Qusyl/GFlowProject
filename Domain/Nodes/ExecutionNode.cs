@@ -1,4 +1,4 @@
 namespace Domain.Nodes
 {
-    public sealed record NodeExecution(string NodeName);
+    public sealed record NodeExecution(Node Node, NodeDescriptor Descriptor);
 }

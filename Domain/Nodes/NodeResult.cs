@@ -1,4 +1,4 @@
 namespace Domain.Nodes
 {
-    public sealed record NodeResult(string OutputPort, Dictionary<string, object?> Variables, Exception? InnerException);
+    public sealed record NodeResult(int OutputPort, Dictionary<string, object?> Variables);
 }

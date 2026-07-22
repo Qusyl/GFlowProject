@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace Domain.Graph;
+namespace Application.Runtime.Workflow;
 
 public static class WorkflowLoader
 {
