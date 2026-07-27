@@ -1,15 +1,14 @@
+using Application.Executors.Configurations;
+using Domain.Nodes;
+namespace Application.Executors.Email;
 
-using Application.Executor.Configuration;
-
-
-namespace Application.Executor
+[NodeExecutor("Email")]
+public class EmailExecutor : INodeExecutors
 {
-    [NodeExecutor("Email")]
-    public class EmailExecutor : INodeExecutor
+    public async Task<NodeResult> ExecuteAsync(NodeExecution node, CancellationToken cts = default)
     {
-        public Task<NodeResult> ExecuteAsync(NodeExecutionContext context, CancellationToken cts = default)
-        {
-            throw new NotImplementedException();
+        Console.WriteLine("Email movement");
+        var ports = node.Descriptor.GetOutcomingPorts();
+        return NodeResult.Success(ports);
         }
-    }
 }

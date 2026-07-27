@@ -1,5 +1,5 @@
 using System;
-namespace  Application.Executor.Configuration
+namespace  Application.Executors.Configurations
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class NodeExecutorAttribute : Attribute

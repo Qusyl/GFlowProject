@@ -10,13 +10,12 @@ public sealed class WorkflowExecutionContext
 
     public DateTimeOffset CreatedTime { get; init; }
 
-    public ILogger<WorkflowExecutionContext> Logger { get; init; }
 
-    public WorkflowExecutionContext(Dictionary<string, object> variables, ILogger<WorkflowExecutionContext> logger)
+    public WorkflowExecutionContext(Dictionary<string, object> variables)
     {
         Variables = variables;
         WorkflowId = Guid.NewGuid();
         CreatedTime = DateTimeOffset.UtcNow;
-        Logger = logger;
+       
     }
 }

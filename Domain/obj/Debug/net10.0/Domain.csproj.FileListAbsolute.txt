@@ -1,0 +1,12 @@
+/home/denis/Documents/Diploma/GFlow/Domain/bin/Debug/net10.0/Domain.deps.json
+/home/denis/Documents/Diploma/GFlow/Domain/bin/Debug/net10.0/Domain.dll
+/home/denis/Documents/Diploma/GFlow/Domain/bin/Debug/net10.0/Domain.pdb
+/home/denis/Documents/Diploma/GFlow/Domain/obj/Debug/net10.0/Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/denis/Documents/Diploma/GFlow/Domain/obj/Debug/net10.0/Domain.AssemblyInfoInputs.cache
+/home/denis/Documents/Diploma/GFlow/Domain/obj/Debug/net10.0/Domain.AssemblyInfo.cs
+/home/denis/Documents/Diploma/GFlow/Domain/obj/Debug/net10.0/Domain.csproj.CoreCompileInputs.cache
+/home/denis/Documents/Diploma/GFlow/Domain/obj/Debug/net10.0/Domain.sourcelink.json
+/home/denis/Documents/Diploma/GFlow/Domain/obj/Debug/net10.0/Domain.dll
+/home/denis/Documents/Diploma/GFlow/Domain/obj/Debug/net10.0/refint/Domain.dll
+/home/denis/Documents/Diploma/GFlow/Domain/obj/Debug/net10.0/Domain.pdb
+/home/denis/Documents/Diploma/GFlow/Domain/obj/Debug/net10.0/ref/Domain.dll

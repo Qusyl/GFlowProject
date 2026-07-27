@@ -6,5 +6,4 @@ namespace Domain.Nodes
         object? DefaultValue,
         bool IsRequired
     );
-    
 }

@@ -1,19 +1,19 @@
+
 using Domain.Graph;
 using Domain.Nodes;
 
 namespace Application.Runtime.Workflow;
 
-public static class WorkflowBuilder
+public class WorkflowBuilder
 {
-
-    public static ExecutionGraph Build(Workflow workflow)
+    public ExecutionGraph Build(Workflow workflow)
     {
         var Nodes = BuildNodes(workflow);
         var IncomingEdges = new Dictionary<int, List<Edge>>();
 
         var OutcomingEdges = new Dictionary<int, List<Edge>>();
 
-        foreach(var edge in workflow.Edges)
+        foreach (var edge in workflow.Edges)
         {
             IncomingEdges[edge.ToNode].Add(edge);
             OutcomingEdges[edge.FromNode].Add(edge);
@@ -21,7 +21,7 @@ public static class WorkflowBuilder
 
         return new ExecutionGraph(Nodes, IncomingEdges, OutcomingEdges);
     }
-    private static Dictionary<int, NodeExecution> BuildNodes(Workflow workflow)
+    private Dictionary<int, NodeExecution> BuildNodes(Workflow workflow)
     {
         var nodes = new Dictionary<int, NodeExecution>(workflow.Nodes.Count);
 
@@ -34,5 +34,4 @@ public static class WorkflowBuilder
         }
         return nodes;
     }
-
 }
