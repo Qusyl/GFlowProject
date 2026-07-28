@@ -3,7 +3,6 @@ namespace Application.Runtime;
 public sealed class RuntimeResult
 {
     public bool IsSuccess { get; }
-    
     public Exception? Exception { get; }
 
     private RuntimeResult(bool isSuccess, Exception? exception)
@@ -12,8 +11,8 @@ public sealed class RuntimeResult
         Exception = exception;
     }
 
-    public static RuntimeResult Success => new RuntimeResult(true, default);
+    public static RuntimeResult Success => new(true, default);
 
-    public static RuntimeResult Failure(Exception ex) => new RuntimeResult(false, ex);
+    public static RuntimeResult Failure(Exception ex) => new(false, ex);
 }
 

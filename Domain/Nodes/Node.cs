@@ -4,6 +4,5 @@ namespace Domain.Nodes
         int Id,
         string Type,
         IReadOnlyDictionary<string, object?> Properties);
-   
 }
 

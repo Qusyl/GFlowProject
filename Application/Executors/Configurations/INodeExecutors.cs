@@ -1,6 +1,6 @@
 using Application.Executors;
 using Domain.Nodes;
-namespace Application.Executors;
+namespace Application.Executors.Configurations;
 
 public interface INodeExecutors
 {

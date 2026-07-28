@@ -11,10 +11,8 @@ public class WorkflowRuntime
     public async Task<RuntimeResult> RunAsync(Workflow workflow,CancellationToken cts = default)
     {
         var workflowBuilder = new WorkflowBuilder();
-
-        var queue = new ReadyQueue.ReadyQueue();
-
         var graph = workflowBuilder.Build(workflow);
+        var queue = new ReadyQueue.ReadyQueue(graph.Nodes.Count);
 
         var sheduler = new NodeScheduler(queue, graph);
         Dictionary<string, object> variables = new()
@@ -28,7 +26,7 @@ public class WorkflowRuntime
             return RuntimeResult.Failure(new InvalidOperationException("graph is null or empty"));
         }
 
-        _session = new ExecuteSession(graph, queue, sheduler, context);
+        _session = new ExecuteSession(queue, sheduler, context);
 
         var result = await _session.StartAsync(cts);
 

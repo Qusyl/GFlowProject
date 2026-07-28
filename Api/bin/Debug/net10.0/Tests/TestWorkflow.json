@@ -1,0 +1,163 @@
+{
+    "Nodes": [
+    {
+      "Node": {
+        "Id": 1,
+        "Type": "HttpTrigger",
+        "Properties": {
+          "method": "GET",
+          "path": "/api/start",
+          "timeout": 30,
+          "authRequired": false
+        }
+      },
+      "Descriptor": {
+        "DisplayName": "HTTP Trigger",
+        "NodeCategory": "Trigger",
+        "Ports": [
+          {
+            "PortName": "start",
+            "PortDirection": "Output"
+          }
+        ]
+      }
+    },
+    {
+      "Node": {
+        "Id": 2,
+        "Type": "Condition",
+        "Properties": {
+          "condition": "{{input.value}} > 100",
+          "strictMode": true
+        }
+      },
+      "Descriptor": {
+        "DisplayName": "Check Value",
+        "NodeCategory": "Logic",
+        "Ports": [
+          {
+            "PortName": "input",
+            "PortDirection": "Input"
+          },
+          {
+            "PortName": "true",
+            "PortDirection": "Output"
+          },
+          {
+            "PortName": "false",
+            "PortDirection": "Output"
+          }
+        ]
+      }
+    },
+    {
+      "Node": {
+        "Id": 3,
+        "Type": "SendEmail",
+        "Properties": {
+          "to": "admin@example.com",
+          "subject": "Value exceeded threshold",
+          "template": "alert_template",
+          "priority": "high"
+        }
+      },
+      "Descriptor": {
+        "DisplayName": "Send Alert Email",
+        "NodeCategory": "Action",
+        "Ports": [
+          {
+            "PortName": "input",
+            "PortDirection": "Input"
+          },
+          {
+            "PortName": "success",
+            "PortDirection": "Output"
+          },
+          {
+            "PortName": "error",
+            "PortDirection": "Output"
+          }
+        ]
+      }
+    },
+    {
+      "Node": {
+        "Id": 4,
+        "Type": "LogMessage",
+        "Properties": {
+          "message": "Value is within normal range",
+          "level": "info"
+        }
+      },
+      "Descriptor": {
+        "DisplayName": "Log Info",
+        "NodeCategory": "Action",
+        "Ports": [
+          {
+            "PortName": "input",
+            "PortDirection": "Input"
+          },
+          {
+            "PortName": "done",
+            "PortDirection": "Output"
+          }
+        ]
+      }
+    },
+    {
+      "Node": {
+        "Id": 5,
+        "Type": "SubWorkflow",
+        "Properties": {
+          "workflowId": "wf_12345",
+          "version": "1.2.0",
+          "async": true
+        }
+      },
+      "Descriptor": {
+        "DisplayName": "Process Subworkflow",
+        "NodeCategory": "Workflow",
+        "Ports": [
+          {
+            "PortName": "input",
+            "PortDirection": "Input"
+          },
+          {
+            "PortName": "completed",
+            "PortDirection": "Output"
+          },
+          {
+            "PortName": "failed",
+            "PortDirection": "Output"
+          }
+        ]
+      }
+    }
+  ],
+  "Edges": [
+    {
+      "FromNode": 1,
+      "ToNode": 2,
+      "FromPort": "start",
+      "ToPort": "input"
+    },
+    {
+      "FromNode": 2,
+      "ToNode": 3,
+      "FromPort": "true",
+      "ToPort": "input"
+    },
+    {
+      "FromNode": 2,
+      "ToNode": 4,
+      "FromPort": "false",
+      "ToPort": "input"
+    },
+    {
+      "FromNode": 3,
+      "ToNode": 5,
+      "FromPort": "success",
+      "ToPort": "input"
+    }
+  ]
+}

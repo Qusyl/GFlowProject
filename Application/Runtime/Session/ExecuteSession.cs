@@ -1,56 +1,57 @@
 using Application.Context;
-using Application.Executors;
 using Application.ReadyQueue;
-
+using Application.Runtime.Workers;
 using Application.Scheduler;
-using Application.Workers;
+
 using Domain.Graph;
 
 namespace Application.Runtime.Session;
 
 public sealed class ExecuteSession {
-    public ExecutionGraph Graph;
-    public IReadyQueue Queue;
-    public NodeScheduler Scheduler;
+    
+    private readonly  IReadyQueue _queue;
+    private readonly  NodeScheduler _scheduler;
     private readonly WorkerPool _workers;
-    public WorkflowExecutionContext Context;
+    private readonly  WorkflowExecutionContext _context; 
 
-    public ExecuteSession(ExecutionGraph graph, IReadyQueue queue, NodeScheduler scheduler, WorkflowExecutionContext context)
+    public ExecuteSession(IReadyQueue queue, NodeScheduler scheduler, WorkflowExecutionContext context)
     {
-        Graph = graph;
-        Queue = queue;
-        Scheduler = scheduler;
+        
+        _queue = queue;
+        _scheduler = scheduler;
         _workers = WorkerPool.Create(32);
-        Context = context;
+        _context = context;
+        
     }
 
     public async  Task<RuntimeResult> StartAsync(CancellationToken token)
     {
-        await Scheduler.StartAsync(token);
+        await _scheduler.InitializeAsync(token);
 
         while (!token.IsCancellationRequested)
         {
             token.ThrowIfCancellationRequested();
-            var worker = _workers.Get();
-            var node = await Queue.ReadAsync(token);
+            if(_queue.Empty && _workers.BusyWorkers == 0)
+            {
+                break;
+            }
+            var node = await _queue.ReadAsync(token);
+
+            var worker = _workers.RentWorker();
 
             try
             {
-                NodeResult result = await worker!.ProcessAsync(node, token);
+        
+                NodeResult result = await worker!.ProcessAsync(node,token);
 
-                await Scheduler.OnNodeCompletedAsync(node.Node.Id, result);
+                await _scheduler.OnNodeCompletedAsync(node.Node.Id, result);
             }
             finally
             {
                 if (worker is not null)
                 {
-                    _workers.Return(worker);
+                    _workers.ReturnWorker(worker);
                 }
-            }
-
-            if (Scheduler.IsCompleted)
-            {
-                break;
             }
         }
         return RuntimeResult.Success;

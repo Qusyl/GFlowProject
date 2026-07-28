@@ -1,6 +1,5 @@
 using System.Threading.Channels;
 
-using Application.Executors;
 using Domain.Nodes;
 
 
@@ -10,9 +9,10 @@ namespace Application.ReadyQueue
     {
         private readonly Channel<NodeExecution> _queue;
 
-        public ReadyQueue()
+        public bool Empty => _queue.Reader.TryPeek(out var node);
+        public ReadyQueue(int nodesPlanned)
         {
-            var options = new BoundedChannelOptions(capacity: 100)
+            var options = new BoundedChannelOptions(nodesPlanned)
             {
                 FullMode = BoundedChannelFullMode.Wait
             };
