@@ -18,8 +18,8 @@ public class NodeScheduler
     {
         foreach(var (id, node) in _graph.Nodes)
         {
-            
-            if(_graph.GetIncoming(id)!.Count == 0)
+            var incoming = _graph.GetIncoming(id);
+            if (incoming is null)
             {
                 await _readyQueue.WriteAsync(node, cts);
             }

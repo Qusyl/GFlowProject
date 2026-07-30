@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace Domain.Nodes
 {
     public class Node
@@ -10,8 +12,26 @@ namespace Domain.Nodes
         {
             if (Properties.TryGetValue(name, out var property))
             {
-                return (T?)property;
+                if(property is JsonElement element)
+                {
+                    return JsonSerializer.Deserialize<T>(element);
+                }
+                else if(property is T readyType)
+                {
+                    return readyType;
+                }
+
+                try
+                {
+                    return (T?)Convert.ChangeType(property, typeof(T));
+                }
+                catch
+                {
+                    //Сделать перехват
+                    return default;
+                }
             }
+            
 
             return default;
         }

@@ -19,13 +19,15 @@ public class LogicCompareExecutor : INodeExecutors
     public async Task<NodeResult> ExecuteAsync(NodeExecutionContext context)
     {
         var expression = context.Node.Node.GetProperty<LogicDefiniton>("Expression");
-
+        System.Diagnostics.Debug.WriteLine($"Expression = null ? {expression is null}");
         if (expression is null)
         {
+          
             return NodeResult.Failure(new NullReferenceException($"Not found property {nameof(LogicDefiniton)}"));
         }
         try
         {
+            System.Diagnostics.Debug.WriteLine($"Начинаю работу с аргументами...");
             var leftArgument = _resolver.Resolve(expression.Left, context);
 
             var rightArgument = _resolver.Resolve(expression.Right, context);
@@ -39,5 +41,6 @@ public class LogicCompareExecutor : INodeExecutors
         {
             return NodeResult.Failure(nullEx);
         }
+        throw new NotImplementedException();
     }
 }

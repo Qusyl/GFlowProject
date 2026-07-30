@@ -1,0 +1,300 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\denis\\source\\repos\\GFlowProject\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\application\\executors\\arguments\\logicargument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|solutionrelative:application\\executors\\arguments\\logicargument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\application\\executors\\arguments\\constantargument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|solutionrelative:application\\executors\\arguments\\constantargument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\application\\executors\\arguments\\variableargument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|solutionrelative:application\\executors\\arguments\\variableargument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\application\\executors\\arguments\\logicdefiniton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|solutionrelative:application\\executors\\arguments\\logicdefiniton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E528BBC3-1C26-8C35-F682-23718816ADCD}|Domain\\Domain.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\domain\\nodes\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E528BBC3-1C26-8C35-F682-23718816ADCD}|Domain\\Domain.csproj|solutionrelative:domain\\nodes\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\application\\executors\\arguments\\argumenttype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|solutionrelative:application\\executors\\arguments\\argumenttype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\application\\runtime\\workers\\sessionworker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|solutionrelative:application\\runtime\\workers\\sessionworker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{680628BE-E25C-7420-1FF6-BBBC60962984}|Api\\MainApi.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\api\\controllers\\workflowcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{680628BE-E25C-7420-1FF6-BBBC60962984}|Api\\MainApi.csproj|solutionrelative:api\\controllers\\workflowcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\application\\runtime\\workflow\\workflowruntime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|solutionrelative:application\\runtime\\workflow\\workflowruntime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\application\\runtime\\session\\executesession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|solutionrelative:application\\runtime\\session\\executesession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\application\\executors\\logic\\logiccompareexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|solutionrelative:application\\executors\\logic\\logiccompareexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\application\\schedule\\nodescheduler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|solutionrelative:application\\schedule\\nodescheduler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\application\\executors\\trigger\\manual\\triggermanualexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|solutionrelative:application\\executors\\trigger\\manual\\triggermanualexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\application\\runtime\\workflow\\workflowbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}|Application\\Application.csproj|solutionrelative:application\\runtime\\workflow\\workflowbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E528BBC3-1C26-8C35-F682-23718816ADCD}|Domain\\Domain.csproj|c:\\users\\denis\\source\\repos\\gflowproject\\domain\\ports\\portsdirection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E528BBC3-1C26-8C35-F682-23718816ADCD}|Domain\\Domain.csproj|solutionrelative:domain\\ports\\portsdirection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ExecuteSession.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Runtime\\Session\\ExecuteSession.cs",
+              "RelativeDocumentMoniker": "Application\\Runtime\\Session\\ExecuteSession.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Runtime\\Session\\ExecuteSession.cs",
+              "RelativeToolTip": "Application\\Runtime\\Session\\ExecuteSession.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAAADgAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T19:25:50.527Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LogicArgument.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Arguments\\LogicArgument.cs",
+              "RelativeDocumentMoniker": "Application\\Executors\\Arguments\\LogicArgument.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Arguments\\LogicArgument.cs*",
+              "RelativeToolTip": "Application\\Executors\\Arguments\\LogicArgument.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T20:10:31.915Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LogicDefiniton.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Arguments\\LogicDefiniton.cs",
+              "RelativeDocumentMoniker": "Application\\Executors\\Arguments\\LogicDefiniton.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Arguments\\LogicDefiniton.cs",
+              "RelativeToolTip": "Application\\Executors\\Arguments\\LogicDefiniton.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T20:09:55.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "VariableArgument.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Arguments\\VariableArgument.cs",
+              "RelativeDocumentMoniker": "Application\\Executors\\Arguments\\VariableArgument.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Arguments\\VariableArgument.cs",
+              "RelativeToolTip": "Application\\Executors\\Arguments\\VariableArgument.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T20:09:42.285Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ConstantArgument.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Arguments\\ConstantArgument.cs",
+              "RelativeDocumentMoniker": "Application\\Executors\\Arguments\\ConstantArgument.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Arguments\\ConstantArgument.cs",
+              "RelativeToolTip": "Application\\Executors\\Arguments\\ConstantArgument.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T20:09:36.919Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ArgumentType.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Arguments\\ArgumentType.cs",
+              "RelativeDocumentMoniker": "Application\\Executors\\Arguments\\ArgumentType.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Arguments\\ArgumentType.cs",
+              "RelativeToolTip": "Application\\Executors\\Arguments\\ArgumentType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T20:09:34.044Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SessionWorker.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Runtime\\Workers\\SessionWorker.cs",
+              "RelativeDocumentMoniker": "Application\\Runtime\\Workers\\SessionWorker.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Runtime\\Workers\\SessionWorker.cs",
+              "RelativeToolTip": "Application\\Runtime\\Workers\\SessionWorker.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAEwBEAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T19:51:09.732Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Node.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Domain\\Nodes\\Node.cs",
+              "RelativeDocumentMoniker": "Domain\\Nodes\\Node.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Domain\\Nodes\\Node.cs",
+              "RelativeToolTip": "Domain\\Nodes\\Node.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAuwA4AAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T19:34:23.975Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "WorkflowRuntime.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Runtime\\Workflow\\WorkflowRuntime.cs",
+              "RelativeDocumentMoniker": "Application\\Runtime\\Workflow\\WorkflowRuntime.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Runtime\\Workflow\\WorkflowRuntime.cs",
+              "RelativeToolTip": "Application\\Runtime\\Workflow\\WorkflowRuntime.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAxwB0AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T19:22:05.246Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "NodeScheduler.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Schedule\\NodeScheduler.cs",
+              "RelativeDocumentMoniker": "Application\\Schedule\\NodeScheduler.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Schedule\\NodeScheduler.cs",
+              "RelativeToolTip": "Application\\Schedule\\NodeScheduler.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAnwDIAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T19:17:05.692Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "WorkflowBuilder.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Runtime\\Workflow\\WorkflowBuilder.cs",
+              "RelativeDocumentMoniker": "Application\\Runtime\\Workflow\\WorkflowBuilder.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Runtime\\Workflow\\WorkflowBuilder.cs",
+              "RelativeToolTip": "Application\\Runtime\\Workflow\\WorkflowBuilder.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAnwCYAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T19:00:20.304Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "LogicCompareExecutor.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Logic\\LogicCompareExecutor.cs",
+              "RelativeDocumentMoniker": "Application\\Executors\\Logic\\LogicCompareExecutor.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Logic\\LogicCompareExecutor.cs",
+              "RelativeToolTip": "Application\\Executors\\Logic\\LogicCompareExecutor.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAuwBQAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T18:34:48.411Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "TriggerManualExecutor.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Trigger\\Manual\\TriggerManualExecutor.cs",
+              "RelativeDocumentMoniker": "Application\\Executors\\Trigger\\Manual\\TriggerManualExecutor.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Executors\\Trigger\\Manual\\TriggerManualExecutor.cs",
+              "RelativeToolTip": "Application\\Executors\\Trigger\\Manual\\TriggerManualExecutor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T18:31:57.484Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "PortsDirection.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Domain\\Ports\\PortsDirection.cs",
+              "RelativeDocumentMoniker": "Domain\\Ports\\PortsDirection.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Domain\\Ports\\PortsDirection.cs",
+              "RelativeToolTip": "Domain\\Ports\\PortsDirection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T18:33:36.658Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "WorkflowController.cs",
+              "DocumentMoniker": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Api\\Controllers\\WorkflowController.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\WorkflowController.cs",
+              "ToolTip": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Api\\Controllers\\WorkflowController.cs",
+              "RelativeToolTip": "Api\\Controllers\\WorkflowController.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAnwBkAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T17:37:30.056Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

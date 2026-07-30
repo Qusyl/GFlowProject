@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "MainApi.Controllers.WorkflowController",
+    "Method": "ExecuteAsync",
+    "RelativePath": "v1/Workflow/execute",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "Application.Dto.WorkflowDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

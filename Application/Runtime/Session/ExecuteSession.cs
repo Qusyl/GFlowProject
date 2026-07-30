@@ -29,15 +29,17 @@ public sealed class ExecuteSession {
         while (!token.IsCancellationRequested)
         {
             token.ThrowIfCancellationRequested();
-            if(_queue.Empty && _workers.BusyWorkers == 0)
-            {
-                break;
-            }
+            
             var node = await _queue.ReadAsync(token);
 
             var context = new NodeExecutionContext(_context, node, token);
 
             var worker = await _workers.AcquireAsync(token);
+
+            if (_queue.Empty && _workers.BusyWorkers == 0)
+            {
+                break;
+            }
 
             try
             {
@@ -54,6 +56,7 @@ public sealed class ExecuteSession {
                 }
             }
         }
+        
         return RuntimeResult.Success;
     }
 }

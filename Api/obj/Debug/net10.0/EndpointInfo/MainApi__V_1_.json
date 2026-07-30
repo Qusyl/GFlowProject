@@ -1,0 +1,173 @@
+{
+  "x-generator": "NSwag v14.7.1.0 (NJsonSchema v11.6.1.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "WorkFlow API",
+    "description": "Test Workflow API",
+    "version": "V1"
+  },
+  "paths": {
+    "/v1/Workflow/execute": {
+      "post": {
+        "tags": [
+          "Workflow"
+        ],
+        "operationId": "Workflow_Execute",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkflowDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "WorkflowDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nodes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NodeExecution"
+            }
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Edge"
+            }
+          }
+        }
+      },
+      "NodeExecution": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "node": {
+            "$ref": "#/components/schemas/Node"
+          },
+          "descriptor": {
+            "$ref": "#/components/schemas/NodeDescriptor"
+          }
+        }
+      },
+      "Node": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        }
+      },
+      "NodeDescriptor": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "nodeCategory": {
+            "$ref": "#/components/schemas/NodeCategory"
+          },
+          "ports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PortsDescriptor"
+            }
+          }
+        }
+      },
+      "NodeCategory": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Trigger",
+          "Logic",
+          "Action",
+          "Workflow"
+        ],
+        "enum": [
+          "Trigger",
+          "Logic",
+          "Action",
+          "Workflow"
+        ]
+      },
+      "PortsDescriptor": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "portName": {
+            "type": "string"
+          },
+          "portDirection": {
+            "$ref": "#/components/schemas/PortsDirection"
+          }
+        }
+      },
+      "PortsDirection": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Input",
+          "Output"
+        ],
+        "enum": [
+          "Input",
+          "Output"
+        ]
+      },
+      "Edge": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "fromNode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "toNode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fromPort": {
+            "type": "string"
+          },
+          "toPort": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

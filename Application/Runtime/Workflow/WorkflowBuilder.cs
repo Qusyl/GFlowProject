@@ -15,8 +15,24 @@ public class WorkflowBuilder
 
         foreach (var edge in workflow.Edges)
         {
-            IncomingEdges[edge.ToNode].Add(edge);
-            OutcomingEdges[edge.FromNode].Add(edge);
+            if (IncomingEdges.ContainsKey(edge.ToNode))
+            {
+                IncomingEdges[edge.ToNode].Add(edge);
+            }
+            else
+            {
+                IncomingEdges.Add(edge.ToNode, new());
+                IncomingEdges[edge.ToNode].Add(edge);
+            }
+            if (OutcomingEdges.ContainsKey(edge.FromNode))
+            {
+                OutcomingEdges[edge.FromNode].Add(edge);
+            }
+            else
+            {
+                OutcomingEdges.Add(edge.FromNode, new());
+                OutcomingEdges[edge.FromNode].Add(edge);
+            }    
         }
 
         return new ExecutionGraph(Nodes, IncomingEdges, OutcomingEdges);

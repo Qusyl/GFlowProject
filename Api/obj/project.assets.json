@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net10.0": {
       "Microsoft.AspNetCore.OpenApi/10.0.10": {
@@ -603,33 +603,41 @@
     ]
   },
   "packageFolders": {
-    "/home/denis/.nuget/packages/": {}
+    "C:\\Users\\denis\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/denis/Documents/Diploma/GFlow/Api/MainApi.csproj",
+      "projectUniqueName": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Api\\MainApi.csproj",
       "projectName": "MainApi",
-      "projectPath": "/home/denis/Documents/Diploma/GFlow/Api/MainApi.csproj",
-      "packagesPath": "/home/denis/.nuget/packages/",
-      "outputPath": "/home/denis/Documents/Diploma/GFlow/Api/obj/",
+      "projectPath": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Api\\MainApi.csproj",
+      "packagesPath": "C:\\Users\\denis\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Api\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/home/denis/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\denis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
-        "/usr/lib/dotnet/library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "/home/denis/Documents/Diploma/GFlow/Application/Application.csproj": {
-              "projectPath": "/home/denis/Documents/Diploma/GFlow/Application/Application.csproj"
+            "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Application.csproj": {
+              "projectPath": "C:\\Users\\denis\\source\\repos\\GFlowProject\\Application\\Application.csproj"
             }
           }
         }
@@ -644,10 +652,11 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": {
@@ -678,7 +687,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/10.0.110/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -1101,7 +1110,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc",
+      "message": "У пакета \"Microsoft.OpenApi\" 2.0.0 есть известная уязвимость https://github.com/advisories/GHSA-v5pm-xwqc-g5wc (уровень серьезности: высокий уровень)",
       "libraryId": "Microsoft.OpenApi",
       "targetGraphs": [
         "net10.0"

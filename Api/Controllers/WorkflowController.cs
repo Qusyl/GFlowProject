@@ -19,18 +19,17 @@ public class WorkflowController : ControllerBase
             return UnprocessableEntity(workflow);
     }
 
-        //Создание контекста WorkflowContext
+        
         var runtime = new WorkflowRuntime();
         
 
-    var result = await runtime.RunAsync(workflow, cts);
+       await runtime.RunAsync(workflow, cts);
 
-        Console.WriteLine($" JSON__WORKFLOW__RESULT: |{result.IsSuccess}| , |{result.Exception?.Message ?? "None"}| ");
+        
 
         return StatusCode(200, new
         {
-            Success = result.IsSuccess,
-            Message = result.Exception?.Message ?? "None"
+          
         });
     }
 }
