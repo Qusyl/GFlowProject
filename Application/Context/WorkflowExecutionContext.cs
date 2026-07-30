@@ -4,18 +4,34 @@ namespace Application.Context;
 
 public sealed class WorkflowExecutionContext
 {
-    public Dictionary<string, object> Variables { get; init; }
+
+    public Guid ExecutionId { get; init; }
+    public CancellationToken CancellationToken { get; init; }
+    public Dictionary<string, VariableValue> Variables { get; init; }
     
-    public Guid WorkflowId { get; init; }
+    public DateTimeOffset StartedTime { get; init; }
 
-    public DateTimeOffset CreatedTime { get; init; }
-
-
-    public WorkflowExecutionContext(Dictionary<string, object> variables)
+    public WorkflowExecutionContext(CancellationToken token)
     {
-        Variables = variables;
-        WorkflowId = Guid.NewGuid();
-        CreatedTime = DateTimeOffset.UtcNow;
-       
+        Variables = new Dictionary<string, VariableValue>();
+        ExecutionId = Guid.NewGuid();
+        StartedTime = DateTimeOffset.UtcNow;
+        CancellationToken = token;
+
     }
+
+    public void SetVariable(string name, VariableValue value)
+    {
+        Variables.Add(name, value);
+    }
+    public VariableValue? GetVariable(string name)
+    {
+        if (Variables.TryGetValue(name, out var variable))
+        {
+            return variable;
+        }
+
+        return default;
+    }  
+
 }

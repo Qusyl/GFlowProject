@@ -1,8 +1,8 @@
-using Application.Executors;
-using Domain.Nodes;
+using Application.Context;
+
 namespace Application.Executors.Configurations;
 
 public interface INodeExecutors
 {
-    Task<NodeResult> ExecuteAsync(NodeExecution node, CancellationToken cts = default);
+    Task<NodeResult> ExecuteAsync(NodeExecutionContext context);
 }

@@ -3,8 +3,6 @@ using Application.ReadyQueue;
 using Application.Runtime.Workers;
 using Application.Scheduler;
 
-using Domain.Graph;
-
 namespace Application.Runtime.Session;
 
 public sealed class ExecuteSession {
@@ -37,12 +35,14 @@ public sealed class ExecuteSession {
             }
             var node = await _queue.ReadAsync(token);
 
-            var worker = _workers.RentWorker();
+            var context = new NodeExecutionContext(_context, node, token);
+
+            var worker = await _workers.AcquireAsync(token);
 
             try
             {
         
-                NodeResult result = await worker!.ProcessAsync(node,token);
+                NodeResult result = await worker!.ProcessAsync(context);
 
                 await _scheduler.OnNodeCompletedAsync(node.Node.Id, result);
             }

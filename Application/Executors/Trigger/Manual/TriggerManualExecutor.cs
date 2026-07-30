@@ -1,12 +1,14 @@
+using Application.Context;
 using Application.Executors.Configurations;
 using Domain.Nodes;
 
 namespace Application.Executors.Trigger.Manual;
 
+[NodeExecutor("ManualTrigger")]
 public class TriggerManualExecutor : INodeExecutors
 {
-    public async Task<NodeResult> ExecuteAsync(NodeExecution node, CancellationToken cts = default)
+    public async Task<NodeResult> ExecuteAsync(NodeExecutionContext context)
     {
-        return NodeResult.Success(node.Descriptor.GetOutcomingPorts());
+        return NodeResult.Success(context.Node.Descriptor.GetOutcomingPorts());
     }
 }

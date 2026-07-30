@@ -19,7 +19,9 @@ public class WorkflowController : ControllerBase
             return UnprocessableEntity(workflow);
     }
 
-    var runtime = new WorkflowRuntime();
+        //Создание контекста WorkflowContext
+        var runtime = new WorkflowRuntime();
+        
 
     var result = await runtime.RunAsync(workflow, cts);
 

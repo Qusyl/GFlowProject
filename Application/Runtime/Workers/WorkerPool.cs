@@ -7,56 +7,60 @@ public sealed class WorkerPool
 {
     private readonly ConcurrentBag<IWorker> _pool;
 
-    private readonly ExecutorRegistry _registry; 
+    private readonly ExecutorRegistry _registry;
 
-    private int _maxBufferSize;
+    private readonly SemaphoreSlim _semaphore; 
+
+    private readonly int _maxBufferSize;
 
     private int _busyWorkers = 0;
 
     private int _createdWorkers = 0;
 
     public int BusyWorkers => _busyWorkers;
-    private WorkerPool(int capacity)
+    private WorkerPool(int capacity, int maxConcurrentWorkers)
     {
         _pool = new ConcurrentBag<IWorker>();
 
         _maxBufferSize = capacity;
 
+        _semaphore = new SemaphoreSlim(maxConcurrentWorkers);
+
         _registry = new();
     }
 
-    public static WorkerPool Create(int poolMaxSize) => new(poolMaxSize);
+    public static WorkerPool Create(int poolMaxSize, int concurrentWorkersCount = 2) => new(poolMaxSize, concurrentWorkersCount);
 
-    public IWorker? RentWorker()
+    public async Task<IWorker> AcquireAsync(CancellationToken cts)
     {
-        if (_pool.TryTake(out IWorker? worker))
+        await _semaphore.WaitAsync(cts);
+
+        if (_pool.TryTake(out var worker))
         {
-            _busyWorkers++;
+            Interlocked.Increment(ref _busyWorkers);
             return worker;
         }
-
-        if (_pool.Count < _maxBufferSize)
+        IWorker? createdWorker = null;
+        if (_createdWorkers < _maxBufferSize)
         {
-            var newWorker = new SessionWorker(_registry);
+            createdWorker = new SessionWorker(_registry);
 
-            _busyWorkers++;
-
-            return newWorker;
+            Interlocked.Increment(ref _createdWorkers);
+            Interlocked.Increment(ref _busyWorkers);
         }
-        
-        return default;
+        if (createdWorker is null)
+        {
+            throw new NullReferenceException("WorkerPoolException: Semaphor can't occured null reference worker");
+        }
+        return createdWorker;
     }
-
-    public void ReturnWorker(IWorker? worker)
+    
+    public void ReturnWorker(IWorker worker)
     {
-        if (worker is null)
-        {
-            return;
-        }
-        if(_pool.Count < _maxBufferSize)
-        {
-            _pool.Add(worker);
-            _busyWorkers--;
-        }
+        _pool.Add(worker);
+
+        Interlocked.Decrement(ref _busyWorkers);
+
+        _semaphore.Release();
     }
 }
