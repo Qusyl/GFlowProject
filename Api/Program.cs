@@ -1,9 +1,21 @@
 
+using Application.Executors.Action.Http.Request;
+using Application.Executors.Configurations;
 using MainApi.ExeptionHandler;
+using MainApi.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddSingleton<IExecutorResolver, ExecutorRegistry>();
+builder.Services.AddHttpClient<ActionHttpRequestExecutor>().ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+{
+    PooledConnectionLifetime = TimeSpan.FromMinutes(15),
+    PooledConnectionIdleTimeout = TimeSpan.FromMinutes(2)
+
+});
+builder.Services.RegisterAllExecutors();
 builder.Services.AddOpenApi();
 builder.Services.AddOpenApiDocument(config =>
 {
