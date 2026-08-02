@@ -7,7 +7,7 @@ public sealed class WorkerPool
 {
     private readonly ConcurrentBag<IWorker> _pool;
 
-    private readonly ExecutorRegistry _registry;
+    private readonly IExecutorResolver _registry;
 
     private readonly SemaphoreSlim _semaphore; 
 
@@ -17,8 +17,12 @@ public sealed class WorkerPool
 
     private int _createdWorkers = 0;
 
-    public int BusyWorkers => _busyWorkers;
-    private WorkerPool(int capacity, int maxConcurrentWorkers)
+    private int _totalTasksProccessing = 0;
+
+    public int BusyWorkers => Interlocked.CompareExchange(ref _busyWorkers, 0, 0);
+
+    public int TotalTaskProccessing => Interlocked.CompareExchange(ref _totalTasksProccessing, 0, 0);
+    private WorkerPool(IExecutorResolver registry, int capacity, int maxConcurrentWorkers)
     {
         _pool = new ConcurrentBag<IWorker>();
 
@@ -26,14 +30,17 @@ public sealed class WorkerPool
 
         _semaphore = new SemaphoreSlim(maxConcurrentWorkers);
 
-        _registry = new();
+        _registry = registry;
+
     }
 
-    public static WorkerPool Create(int poolMaxSize, int concurrentWorkersCount = 2) => new(poolMaxSize, concurrentWorkersCount);
+    public static WorkerPool Create(int poolMaxSize, IExecutorResolver registry,int concurrentWorkersCount = 2) => new(registry,poolMaxSize, concurrentWorkersCount);
 
     public async Task<IWorker> AcquireAsync(CancellationToken cts)
     {
         await _semaphore.WaitAsync(cts);
+
+        Interlocked.Increment(ref _totalTasksProccessing);
 
         if (_pool.TryTake(out var worker))
         {
@@ -50,17 +57,22 @@ public sealed class WorkerPool
         }
         if (createdWorker is null)
         {
+            _semaphore.Release();
+            Interlocked.Decrement(ref _totalTasksProccessing);
             throw new NullReferenceException("WorkerPoolException: Semaphor can't occured null reference worker");
         }
         return createdWorker;
     }
-    
+
     public void ReturnWorker(IWorker worker)
     {
         _pool.Add(worker);
 
         Interlocked.Decrement(ref _busyWorkers);
+        Interlocked.Decrement(ref _totalTasksProccessing);
 
         _semaphore.Release();
     }
+
+    public bool IsIdle() => _totalTasksProccessing == 0;
 }

@@ -6,9 +6,9 @@ namespace Application.Runtime.Workers;
 
 public class SessionWorker : IWorker
 {
-    private readonly ExecutorRegistry _registry;
+    private readonly IExecutorResolver _registry;
 
-    public SessionWorker(ExecutorRegistry registry)
+    public SessionWorker(IExecutorResolver registry)
     {
         _registry = registry;
        

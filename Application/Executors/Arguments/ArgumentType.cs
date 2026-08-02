@@ -16,5 +16,8 @@ public enum ArgumentType
 
     Boolean,
 
-    DateTime
+    DateTime,
+
+    HttpResponseMessage
+
 }

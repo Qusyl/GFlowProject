@@ -14,7 +14,8 @@ namespace Domain.Nodes
             {
                 if(property is JsonElement element)
                 {
-                    return JsonSerializer.Deserialize<T>(element);
+                    var parsed = JsonSerializer.Deserialize<T>(element);
+                    return parsed;
                 }
                 else if(property is T readyType)
                 {

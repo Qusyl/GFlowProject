@@ -5,11 +5,13 @@ using Application.Executors.Configurations;
 namespace Application.Executors.Configurations
 {
 
-    public sealed class ExecutorRegistry
+    public sealed class ExecutorRegistry : IExecutorResolver
     {
+        private readonly IServiceProvider _serviceProvider;
         private readonly Dictionary<string, Type> _cached;
-        public ExecutorRegistry()
+        public ExecutorRegistry(IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
             _cached = Assembly
             .GetExecutingAssembly()
             .GetTypes()

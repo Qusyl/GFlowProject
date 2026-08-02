@@ -1,6 +1,7 @@
 
 using Application.ReadyQueue;
 using Domain.Graph;
+using Domain.Nodes;
 
 namespace Application.Scheduler;
 

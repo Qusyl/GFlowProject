@@ -9,7 +9,7 @@ namespace Application.ReadyQueue
     {
         private readonly Channel<NodeExecution> _queue;
 
-        public bool Empty => _queue.Reader.TryPeek(out var node);
+        public bool Empty => !_queue.Reader.TryPeek(out var node);
         public ReadyQueue(int nodesPlanned)
         {
             var options = new BoundedChannelOptions(nodesPlanned)
@@ -19,16 +19,31 @@ namespace Application.ReadyQueue
 
             _queue = Channel.CreateBounded<NodeExecution>(options);
         }
-        public async ValueTask<NodeExecution> ReadAsync(CancellationToken cts)
+        public async ValueTask<NodeExecution?> ReadAsync(CancellationToken cts)
         {
-            if (await _queue.Reader.WaitToReadAsync(cts))
+            using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cts);
+            timeout.CancelAfter(TimeSpan.FromMilliseconds(500));
+            try
             {
+                 if (await _queue.Reader.WaitToReadAsync(timeout.Token))
+                {
+                
                 if (_queue.Reader.TryRead(out var node))
                 {
                     return node;
                 }
             }
-            throw new InvalidOperationException("Канал был закрыт или доступ к нему заблокирован");
+            }
+            catch(OperationCanceledException)
+            {
+                if (cts.IsCancellationRequested)
+                {
+                    throw;
+                }
+                return null;
+            }
+
+            return null;
         }
 
         public async ValueTask WriteAsync(NodeExecution node, CancellationToken cts)

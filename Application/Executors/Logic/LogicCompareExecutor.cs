@@ -1,4 +1,5 @@
 using Application.Context;
+using Application.Exceptions;
 using Application.Executors.Arguments;
 using Application.Executors.Configurations;
 using Application.Executors.Logic.Logics;
@@ -23,7 +24,7 @@ public class LogicCompareExecutor : INodeExecutors
         if (expression is null)
         {
           
-            return NodeResult.Failure(new NullReferenceException($"Not found property {nameof(LogicDefiniton)}"));
+            return NodeResult.Failure(new NullNodePropertyReferenceException($"Can't get property {typeof(LogicDefiniton)} (comparer)"));
         }
         try
         {
@@ -41,6 +42,6 @@ public class LogicCompareExecutor : INodeExecutors
         {
             return NodeResult.Failure(nullEx);
         }
-        throw new NotImplementedException();
+       
     }
 }

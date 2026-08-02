@@ -23,7 +23,6 @@ public class WorkflowController : ControllerBase
         {
             return UnprocessableEntity(workflow);
         }
-    
         var runtime = _workflowFactory.Create();
         
         var result =  await runtime.RunAsync(workflow, cts);
