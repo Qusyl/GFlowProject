@@ -1,5 +1,6 @@
 using System.Reflection;
 using Application.Executors.Configurations;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace Application.Executors.Configurations
@@ -27,7 +28,7 @@ namespace Application.Executors.Configurations
         {
             if (_cached.TryGetValue(typeName, out var type))
             {
-                return Activator.CreateInstance(type) as INodeExecutors;
+                return _serviceProvider.GetService(type) as INodeExecutors;
             }
 
             return null;

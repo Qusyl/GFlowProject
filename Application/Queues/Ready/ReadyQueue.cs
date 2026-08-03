@@ -22,7 +22,7 @@ namespace Application.ReadyQueue
         public async ValueTask<NodeExecution?> ReadAsync(CancellationToken cts)
         {
             using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cts);
-            timeout.CancelAfter(TimeSpan.FromMilliseconds(500));
+            timeout.CancelAfter(TimeSpan.FromMilliseconds(5000));
             try
             {
                  if (await _queue.Reader.WaitToReadAsync(timeout.Token))

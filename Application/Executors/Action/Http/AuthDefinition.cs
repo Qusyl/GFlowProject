@@ -8,8 +8,5 @@ namespace Application.Executors.Action.Http
         string? Password,
         string? Token,
         string? CookieString
-    )
-    {
-        
-    }
+    );
 }

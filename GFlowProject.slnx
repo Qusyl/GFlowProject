@@ -2,6 +2,9 @@
   <Folder Name="/Api/">
     <Project Path="Api/MainApi.csproj" />
   </Folder>
+  <Folder Name="/GFlowApp/">
+    <Project Path="GFlowApp/GFlowApp/GFlowApp.csproj" />
+  </Folder>
   <Project Path="Application/Application.csproj" />
   <Project Path="Domain/Domain.csproj" />
 </Solution>

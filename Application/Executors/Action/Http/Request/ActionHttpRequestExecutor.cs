@@ -10,6 +10,8 @@ public class ActionHttpRequestExecutor : INodeExecutors
 {
     private readonly HttpClient _client;
     public ActionHttpRequestExecutor(HttpClient client) => _client = client;
+
+    public ActionHttpRequestExecutor(){}
     public async Task<NodeResult> ExecuteAsync(NodeExecutionContext context)
     {
         var httpDefiniton = context.Node.Node.GetProperty<HttpDefinition>("HttpContext");

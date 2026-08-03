@@ -16,15 +16,28 @@ public sealed class WorkflowRuntimeErrorQueue : IExceptionQueue
     }
     public bool Empty => !_queue.Reader.TryPeek(out var exception);
 
-    public async Task<IReadOnlyCollection<Exception>> ReadAllAsync(CancellationToken cts = default)
+    public async Task<IReadOnlyCollection<Exception?>> ReadAllAsync(CancellationToken cts = default)
     {
         var list = new List<Exception>();
 
-        await foreach (var item in _queue.Reader.ReadAllAsync(cts))
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cts);
+        timeout.CancelAfter(TimeSpan.FromMilliseconds(500));
+        try
+        {
+             await foreach (var item in _queue.Reader.ReadAllAsync(timeout.Token))
         {
             list.Add(item);
         }
         return list;
+        }catch(OperationCanceledException ex)
+        {
+            if (cts.IsCancellationRequested)
+            {
+                throw;
+            }
+            return null;
+        }
+       
     }
 
     public async ValueTask<Exception?> ReadAsync(CancellationToken cts = default)

@@ -27,7 +27,7 @@ public class HttpRequestHandler : IRequestHandler
             var url = defenition.GetArgument<string>(HttpRequestArgument.Url.ToString());
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             UseAuthorization(request, defenition.Auth);
-            var response = await _client.GetAsync(url);
+            var response = await _client.SendAsync(request);
             if (response is null)
             {
                 return new HttpResponseMessage(HttpStatusCode.NotFound)
