@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GFlowApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8a9fc3c0eded27a7aa79c5a4f6ff339c953c13fd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dd4846ddf2a467be6918cbe6cd3bcbd25ca0985d")]
 [assembly: System.Reflection.AssemblyProductAttribute("GFlowApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GFlowApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

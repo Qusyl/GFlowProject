@@ -10,13 +10,7 @@ namespace Application.Executors.Action.Database.Handlers
 {
     public abstract class SqlQueryHandlerBase
     {
-        protected readonly ISqlDialect Dialect;
-
-        protected SqlQueryHandlerBase(ISqlDialect dialect)
-        {
-            Dialect = dialect;
-        }
-        protected (string Sql, Dictionary<string, object?> Parameters) BuildWhere(QueryCondition? condition)
+        protected (string Sql, Dictionary<string, object?> Parameters) BuildWhere(QueryCondition? condition, ISqlDialect dialect)
         {
             var parameters = new Dictionary<string, object?>();
 
@@ -24,7 +18,7 @@ namespace Application.Executors.Action.Database.Handlers
             {
                 return ("", parameters);
             }
-            var visitor = new SqlConditionVisitor(Dialect, parameters);
+            var visitor = new SqlConditionVisitor(dialect, parameters);
 
             var close = condition.Accept(visitor);
 

@@ -1,4 +1,5 @@
 
+using Api.Extensions;
 using Application.Executors.Action.Http.Request;
 using Application.Executors.Configurations;
 using Application.Runtime.Workflow;
@@ -18,6 +19,7 @@ builder.Services.AddHttpClient<ActionHttpRequestExecutor>().ConfigurePrimaryHttp
 
 });
 builder.Services.RegisterAllExecutors();
+builder.Services.RegisterAllSqlHandlers();
 builder.Services.AddOpenApi();
 builder.Services.AddOpenApiDocument(config =>
 {

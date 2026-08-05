@@ -1,10 +1,15 @@
 using System.Text.Json.Serialization;
 
-namespace Application.Executors.Action.Database.Sql
+namespace Application.Executors.Action.Database
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum SslMode
     {
-        Disabled
+        None,
+        Required,
+
+        VerifyCA,
+        VerifyFull
+
     }
 }

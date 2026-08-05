@@ -11,15 +11,11 @@ namespace Application.Executors.Action.Database.Handlers
 {
     public class DeleteSqlQueryHandler : SqlQueryHandlerBase, ISqlQueryHandler<DeleteDefinition>
     {
-        public DeleteSqlQueryHandler(ISqlDialect dialect) : base(dialect)
+        public async Task<QueryResult> HandleAsync(DeleteDefinition def, IDbConnection connection, ISqlDialect dialect)
         {
-        }
+            var table = dialect.QuoteIdentifier(def.TableName);
 
-        public async Task<QueryResult> HandleAsync(DeleteDefinition def, IDbConnection connection)
-        {
-            var table = Dialect.QuoteIdentifier(def.TableName);
-
-            var (whereSql, parameters) = BuildWhere(def.Where);
+            var (whereSql, parameters) = BuildWhere(def.Where, dialect);
 
             if (string.IsNullOrEmpty(whereSql))
             {

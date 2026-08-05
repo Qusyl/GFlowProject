@@ -5,9 +5,5 @@ using System.Threading.Tasks;
 
 namespace Application.Executors.Action.Database
 {
-    public record DatabaseConfiguration
-    (
-        string DatabaseType,
-        ConnectionParameters ConnectionParameters
-    );
+    public sealed record SqlConnectionConfiguration(DatabaseType DatabaseType, ConnectionParameters ConnectionParameters);
 }

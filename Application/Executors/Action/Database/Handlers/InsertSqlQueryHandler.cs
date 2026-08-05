@@ -11,16 +11,14 @@ namespace Application.Executors.Action.Database.Handlers
 {
     public class InsertSqlQueryHandler : SqlQueryHandlerBase, ISqlQueryHandler<InsertDefinition>
     {
-        public InsertSqlQueryHandler(ISqlDialect dialect) : base(dialect)
-        {
-        }
+       
 
-        public async Task<QueryResult> HandleAsync(InsertDefinition def, IDbConnection connection)
+        public async Task<QueryResult> HandleAsync(InsertDefinition def, IDbConnection connection, ISqlDialect dialect)
         {
 
-            var table = Dialect.QuoteIdentifier(def.TableName);
-            var columns = string.Join(", ", def.Values.Keys.Select(Dialect.QuoteIdentifier));
-            var parameters = string.Join(", ", def.Values.Keys.Select(k => $"{Dialect.ParameterPrefix}{k}"));
+            var table = dialect.QuoteIdentifier(def.TableName);
+            var columns = string.Join(", ", def.Values.Keys.Select(dialect.QuoteIdentifier));
+            var parameters = string.Join(", ", def.Values.Keys.Select(k => $"{dialect.ParameterPrefix}{k}"));
             var sql = $"INSERT INTO {table} ({columns}) VALUES ({parameters})";
             var affected = await connection.ExecuteAsync(sql);
             return new QueryResult(affected);

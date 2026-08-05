@@ -8,28 +8,25 @@ namespace Application.Executors.Action.Database
 {
     public class DatabaseConnectionFactory
     {
-        public static DbConnection Create(DatabaseConfiguration configuration)
+        public static DbConnection Create(SqlConnectionConfiguration configuration)
         {
             var connection = BuildConnection(configuration);
-
-           
-            return configuration.DatabaseType.ToLower() switch
+            return configuration.DatabaseType switch
             {
-
-                "mysql" => new MySqlConnection(),
-                "postgresql" => new NpgsqlConnection(),
+                DatabaseType.Mysql => new MySqlConnection(connection),
+                DatabaseType.Postgresql => new NpgsqlConnection(connection),
                 _ => throw new NotSupportedException($"DBMS {configuration.DatabaseType} not supported")
             };
         }
 
-        private static DbConnection BuildConnection(DatabaseConfiguration configuration)
+        private static string BuildConnection(SqlConnectionConfiguration configuration)
         {
             var baseString = $"Host={configuration.ConnectionParameters.Host};Database={configuration.ConnectionParameters.Database};Username={configuration.ConnectionParameters.Username};Password={configuration.ConnectionParameters.Password}";
 
-            return configuration.DatabaseType.ToLower() switch
+            return configuration.DatabaseType switch
             {
-                "postgresql" => BuildPsqlConnection(configuration.ConnectionParameters, baseString),
-                "mysql" => BuildMysqlConnection(configuration.ConnectionParameters),
+                DatabaseType.Postgresql  => BuildPsqlConnection(configuration.ConnectionParameters, baseString),
+                DatabaseType.Mysql => BuildMysqlConnection(configuration.ConnectionParameters),
                 _ => throw new NotSupportedException($"DBMS {nameof(configuration.DatabaseType)} not supported!")
             }; 
         }
