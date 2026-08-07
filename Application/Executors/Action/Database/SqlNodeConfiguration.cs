@@ -5,15 +5,15 @@ namespace Application.Executors.Action.Database
 {
     public sealed class SqlNodeConfiguration {
 
-        [JsonPropertyName("query")]
+        
         public QueryDefinition Definition { get; init; }
-        [JsonPropertyName("connection")]
+  
         public SqlConnectionConfiguration SqlConnection { get; init; }
 
-        public SqlNodeConfiguration(QueryDefinition definition, SqlConnectionConfiguration sqlConnectionConfiguration)
+        public SqlNodeConfiguration(QueryDefinition definition, SqlConnectionConfiguration sqlConnection)
         {
             Definition = definition;
-            SqlConnection = sqlConnectionConfiguration;
+            SqlConnection = sqlConnection;
            
         }
     }

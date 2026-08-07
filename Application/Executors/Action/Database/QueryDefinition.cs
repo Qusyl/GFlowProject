@@ -18,6 +18,7 @@ namespace Application.Executors.Action.Database
     {
         public abstract OperationType Operation { get; }
 
-        public string TableName { get; }
+        public string TableName { get; init; }
+
     }
 }

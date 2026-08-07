@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Application.Executors.Action.Database.Definitions;
 using Application.Executors.Action.Database.Dialects;
@@ -11,13 +12,11 @@ namespace Application.Executors.Action.Database.Handlers
 {
     public class UpdateSqlQueryHandler : SqlQueryHandlerBase, ISqlQueryHandler<UpdateDefinition>
     {
-        public UpdateSqlQueryHandler(ISqlDialect dialect) : base(dialect)
-        {
-        }
 
-        public async Task<QueryResult> HandleAsync(UpdateDefinition def, IDbConnection connection)
+
+        public async Task<QueryResult> HandleAsync(UpdateDefinition def, IDbConnection connection, ISqlDialect dialect)
         {
-            var table = Dialect.QuoteIdentifier(def.TableName);
+            var table = dialect.QuoteIdentifier(def.TableName);
 
             var setParamNames = new Dictionary<string, object?>();
 
@@ -25,21 +24,39 @@ namespace Application.Executors.Action.Database.Handlers
             {
 
                 var paramName = $"V_{kvp.Key}";
-                setParamNames[paramName] = kvp.Value;
-                return $"{Dialect.QuoteIdentifier(kvp.Key)} = {Dialect.ParameterPrefix}{paramName}";
+                setParamNames[paramName] = NormalizeObject(kvp.Value);
+                return $"{dialect.QuoteIdentifier(kvp.Key)} = {dialect.ParameterPrefix}{paramName}";
             });
-            var (whereSql, parameters) = BuildWhere(def.Where);
+            var (whereSql, parameters) = BuildWhere(def.Where, dialect);
 
             foreach (var kvp in parameters)
             {
-                setParamNames[kvp.Key] = kvp.Value;
+                setParamNames[kvp.Key] = NormalizeObject(kvp.Value);
             }
 
             var sql = $"UPDATE {table} SET {string.Join(", ", setCloses)} {whereSql}";
 
-            var affected = await connection.ExecuteAsync(sql);
+            var affected = await connection.ExecuteAsync(sql, setParamNames);
 
             return new QueryResult(affected);
+        }
+
+        public object? NormalizeObject(object? value)
+        {
+            if (value is not JsonElement element)
+            {
+                return value;
+            }
+
+            return element.ValueKind switch
+            {
+                JsonValueKind.String => element.GetString(),
+                JsonValueKind.Number => element.GetDecimal(),
+                JsonValueKind.True => true,
+                JsonValueKind.False => false,
+                JsonValueKind.Null => null,
+                _=> throw new NotSupportedException($"Not supported JsonValueKind {element.ValueKind}")
+            };
         }
     }
 }

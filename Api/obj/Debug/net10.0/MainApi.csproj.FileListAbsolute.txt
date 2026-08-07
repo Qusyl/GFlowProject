@@ -103,3 +103,6 @@ C:/Users/denis/source/repos/GFlowProject/Api/obj/Debug/net10.0/refint/MainApi.dl
 C:/Users/denis/source/repos/GFlowProject/Api/obj/Debug/net10.0/MainApi.pdb
 C:/Users/denis/source/repos/GFlowProject/Api/obj/Debug/net10.0/MainApi.genruntimeconfig.cache
 C:/Users/denis/source/repos/GFlowProject/Api/obj/Debug/net10.0/ref/MainApi.dll
+/home/denis/Documents/Diploma/GFlow/Api/bin/Debug/net10.0/Dapper.dll
+/home/denis/Documents/Diploma/GFlow/Api/bin/Debug/net10.0/MySqlConnector.dll
+/home/denis/Documents/Diploma/GFlow/Api/bin/Debug/net10.0/Npgsql.dll

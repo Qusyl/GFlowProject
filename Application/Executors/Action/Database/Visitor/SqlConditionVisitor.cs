@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Application.Executors.Action.Database.Dialects;
 using Application.Executors.Action.Database.Visitor.Conditions;
@@ -23,7 +24,7 @@ namespace Application.Executors.Action.Database.Visitor
         public string VisitCompare(ComparisonCondition condition)
         {
             var paramName = $"p{_parameterCounter++}";
-            _parameters[paramName] = condition.Value;
+            _parameters[paramName] = NormalizeObject(condition.Value);
             var field = _sqlDialect.QuoteIdentifier(condition.Field);
             var op = condition.Operator switch
             {
@@ -54,6 +55,23 @@ namespace Application.Executors.Action.Database.Visitor
         public string VisitNot(NotCondition condition)
         {
             return $"NOT ({condition.Inner.Accept(this)})";
+        }
+        public object? NormalizeObject(object? value)
+        {
+            if (value is not JsonElement element)
+            {
+                return value;
+            }
+
+            return element.ValueKind switch
+            {
+                JsonValueKind.String => element.GetString(),
+                JsonValueKind.Number => element.GetInt32(),
+                JsonValueKind.True => true,
+                JsonValueKind.False => false,
+                JsonValueKind.Null => null,
+                _=> throw new NotSupportedException($"Not supported JsonValueKind {element.ValueKind}")
+            };
         }
     }
 }

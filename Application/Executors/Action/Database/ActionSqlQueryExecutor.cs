@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Executors.Action.Database
 {
+    [NodeExecutor("Sql")]
     public class ActionSqlQueryExecutor : INodeExecutors
     {
         private readonly ISqlDialectFactory _dialectFactorty;

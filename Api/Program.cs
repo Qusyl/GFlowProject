@@ -1,5 +1,6 @@
 
 using Api.Extensions;
+using Application.Executors.Action.Database.Dialects;
 using Application.Executors.Action.Http.Request;
 using Application.Executors.Configurations;
 using Application.Runtime.Workflow;
@@ -12,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IExecutorResolver, ExecutorRegistry>();
 builder.Services.AddSingleton<IWorkflowFactory, WorkflowFactory>();
+builder.Services.AddSingleton<ISqlDialectFactory, SqlDialectFactory>();
 builder.Services.AddHttpClient<ActionHttpRequestExecutor>().ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
 {
     PooledConnectionLifetime = TimeSpan.FromMinutes(15),

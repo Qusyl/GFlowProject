@@ -9,6 +9,6 @@ namespace Application.Executors.Action.Database.Definitions
     {
         public override OperationType Operation => OperationType.Insert;
 
-        public Dictionary<string, object?> Values { get; } = new();
+        public Dictionary<string, object?> Values { get; set; } = new();
     }
 }

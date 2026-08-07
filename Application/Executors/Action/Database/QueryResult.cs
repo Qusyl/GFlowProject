@@ -5,5 +5,5 @@ using System.Threading.Tasks;
 
 namespace Application.Executors.Action.Database
 {
-    public sealed record QueryResult(int Affected);
+    public sealed record QueryResult(object? value);
 }

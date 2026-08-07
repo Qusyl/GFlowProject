@@ -85,18 +85,15 @@ namespace Application.Executors.Action.Database
             {
                 parts.Add($"Pooling={parameters.Pooling}");
             }
-            if (!string.IsNullOrEmpty(parameters.SslMode.ToString()))
-            {
-                parts.Add($"SslMode={parameters.SslMode}");
-            }
-            if (parameters.MinPoolSize.HasValue)
-            {
-                parts.Add($"Minimum Pool Size={parameters.MinPoolSize}");
-            }
-            if (parameters.MaxPoolSize.HasValue)
-            {
-                parts.Add($"Maximum Pool Size={parameters.MaxPoolSize}");
-            }
+            
+            // if (parameters.MinPoolSize.HasValue)
+            // {
+            //     parts.Add($"Minimum Pool Size={parameters.MinPoolSize}");
+            // }
+            // if (parameters.MaxPoolSize.HasValue)
+            // {
+            //     parts.Add($"Maximum Pool Size={parameters.MaxPoolSize}");
+            // }
             if (parameters.TimeOut.HasValue)
             {
                 parts.Add($"CommandTimeout={parameters.TimeOut}");
