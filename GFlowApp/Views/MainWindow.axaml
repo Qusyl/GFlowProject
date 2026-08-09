@@ -1,0 +1,106 @@
+<Window xmlns="https://github.com/avaloniaui"
+     
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:GFlowApp.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+        x:Class="GFlowApp.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="GFlowApp"
+        Width="1920"
+        Height="1080">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+   
+    <Grid ColumnDefinitions="300, *">
+        <!-- ЛЕВАЯ ПАНЕЛЬ -->
+        <Border Grid.Column="0" Background="#F5F5F5" BorderBrush="#E0E0E0" BorderThickness="0,0,1,0">
+            <ScrollViewer>
+      
+                <StackPanel Margin="10" Spacing="5">
+                    
+                    <!-- Блок ТРИГГЕРЫ -->
+                    <Expander Header="Triggers" HorizontalAlignment="Stretch" IsExpanded="True">
+        <ItemsControl ItemsSource="{Binding TriggerItems}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="x:String">
+                    <Button Content="{Binding}"
+                            Command="{Binding $parent[ItemsControl].((vm:MainViewModel)DataContext).AddBlock}"
+                            CommandParameter="{Binding}"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,2" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Expander>
+                    <!-- Блок ЛОГИКА -->
+                   <Expander Header="Logic" HorizontalAlignment="Stretch">
+        <ItemsControl ItemsSource="{Binding LogicItems}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="x:String">
+                    <Button Content="{Binding}"
+                            Command="{Binding $parent[ItemsControl].((vm:MainViewModel)DataContext).AddBlock}"
+                            CommandParameter="{Binding}"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,2" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Expander>
+                    <!-- Блок ДЕЙСТВИЯ -->
+                    <Expander Header="Actions" HorizontalAlignment="Stretch">
+        <ItemsControl ItemsSource="{Binding ActionItems}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="x:String">
+                    <Button Content="{Binding}"
+                            Command="{Binding $parent[ItemsControl].((vm:MainViewModel)DataContext).AddBlock}"
+                            CommandParameter="{Binding}"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,2" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Expander>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+    <Grid Grid.Column="1">
+   <ItemsControl ItemsSource="{Binding Blocks}">
+    <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+            <Canvas />
+        </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+
+    <ItemsControl.Styles>
+        <Style Selector="ContentPresenter" x:DataType="vm:BlockViewModel">
+            <Setter Property="Canvas.Left" Value="{Binding X}" />
+            <Setter Property="Canvas.Top" Value="{Binding Y}" />
+        </Style>
+    </ItemsControl.Styles>
+
+    <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="vm:BlockViewModel">
+            <Border Background="{Binding Color}"
+                    BorderBrush="#B0B0B0"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="10,6"
+                    BoxShadow="0 1 3 0 #22000000"
+                    Width="150"
+                    Height="150">
+                <TextBlock Text="{Binding Name}" />
+            </Border>
+        </DataTemplate>
+    </ItemsControl.ItemTemplate>
+</ItemsControl>
+    </Grid>
+        </Grid>
+</Window>
