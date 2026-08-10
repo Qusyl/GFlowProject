@@ -21,6 +21,8 @@ namespace GFlowApp.ViewModels
         [ObservableProperty]
         public partial IBrush Color { get; set; }
 
+        [ObservableProperty]
+        public partial bool IsSelected { get; set; } = false;
         public BlockViewModel(string name,IBrush color, double x, double y)
         {
             Name = name;

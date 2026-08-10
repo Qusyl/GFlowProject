@@ -1,4 +1,5 @@
 using Application.Dto;
+using Application.Runtime;
 using Application.Runtime.Workflow;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,17 +17,17 @@ public class WorkflowController : ControllerBase
     }
 
     [HttpPost("execute")]
-    public async Task<ActionResult> ExecuteAsync([FromBody] WorkflowDto dto, CancellationToken cts)
+    public async Task<ActionResult<RuntimeResult>> ExecuteAsync([FromBody] WorkflowDto dto, CancellationToken cts)
     {
         var workflow = new Workflow(dto.Nodes, dto.Edges);
         if (workflow is null)
         {
-            return UnprocessableEntity(workflow);
+            BadRequest(workflow);
         }
         var runtime = _workflowFactory.Create();
         
         var result =  await runtime.RunAsync(workflow, cts);
 
-        return StatusCode(200, result.Exceptions is null ? "Success" : result.Exceptions);
+        return Ok(result);
     }
 }

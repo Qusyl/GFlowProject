@@ -37,9 +37,9 @@ public class WorkflowRuntime
         {
             await exceptionQueue.WriteAsync(new NullReferenceException("Graph is null"));
         }
-        
-        var exceptions = await exceptionQueue.ReadAllAsync(cts);
 
+        var exceptions = await exceptionQueue.ReadAllAsync(cts);
+        
         return new RuntimeResult(exceptions);
             
     }
