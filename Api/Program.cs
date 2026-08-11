@@ -20,6 +20,7 @@ builder.Services.AddHttpClient<ActionHttpRequestExecutor>().ConfigurePrimaryHttp
     PooledConnectionIdleTimeout = TimeSpan.FromMinutes(2)
 
 });
+
 builder.Services.RegisterAllExecutors();
 builder.Services.RegisterAllSqlHandlers();
 builder.Services.AddOpenApi();

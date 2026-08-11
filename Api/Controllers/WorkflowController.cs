@@ -1,7 +1,9 @@
 using Application.Dto;
 using Application.Runtime;
 using Application.Runtime.Workflow;
+using GFlowApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using Tmds.DBus.Protocol;
 
 namespace MainApi.Controllers;
 
@@ -10,9 +12,11 @@ namespace MainApi.Controllers;
 public class WorkflowController : ControllerBase
 {
     private readonly IWorkflowFactory _workflowFactory;
+    private Dictionary<string, List<PropertySchema>> _cachedSchemas;
     public WorkflowController(IWorkflowFactory workflowFactory)
     {
         _workflowFactory = workflowFactory;
+        _cachedSchemas = new();
 
     }
 
@@ -25,9 +29,28 @@ public class WorkflowController : ControllerBase
             BadRequest(workflow);
         }
         var runtime = _workflowFactory.Create();
-        
-        var result =  await runtime.RunAsync(workflow, cts);
+
+        var result = await runtime.RunAsync(workflow, cts);
 
         return Ok(result);
     }
+
+//Todo перенсти схему из Services в API
+    [HttpGet("nodes/schema/{nodeType}")]
+    public ActionResult<NodeTypeSchema> GetSchema(string nodeType)
+    {
+        if (_cachedSchemas.TryGetValue(nodeType, out var schema))
+        {
+            return Ok(schema);
+        }
+        var schema = nodeType switch
+        {
+            "sql" => new NodeTypeSchema(new List<PropertySchema>
+            {
+                "string",
+                
+            }),
+            
+        };
+    } 
 }

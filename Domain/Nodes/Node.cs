@@ -4,15 +4,22 @@ namespace Domain.Nodes
 {
     public class Node
     {
-        public int Id { get; init; }
+        private static int _idCouter = 1;
+        public int Id { get;}
         public string Type { get; init; }
         public IReadOnlyDictionary<string, object?> Properties { get; init; }
 
         private readonly JsonSerializerOptions options = new JsonSerializerOptions
         {
-                PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true
         };
 
+    public Node(string type, IReadOnlyDictionary<string, object?> properties)
+        {
+            Id = ++_idCouter;
+            Type = type;
+            Properties = properties;
+        }
         public T? GetProperty<T>(string name)
         {
             

@@ -2,6 +2,7 @@
      
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:GFlowApp.ViewModels"
+        xmlns:props="using:GFlowApp.ViewModels.Properties"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="using:GFlowApp.Services"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -12,6 +13,52 @@
         Title="GFlowApp"
         Width="1920"
         Height="1080">
+        <Window.Resources>
+        <DataTemplate x:Key="TextFieldTemplate" DataType="{x:Type props:TextFieldPropertyViewModel}">
+            <StackPanel Spacing="4">
+                <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
+                <TextBox Text="{Binding Value, Mode=TwoWay}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate
+    x:Key="ObjectFieldTemplate"
+    DataType="{x:Type props:ObjectFieldPropertyViewModel}">
+
+    <Expander IsExpanded="True">
+        <Expander.Header>
+            <TextBlock Text="{Binding Schema.Name}"
+                       FontWeight="SemiBold" />
+        </Expander.Header>
+
+        <ItemsControl ItemsSource="{Binding Fields}" />
+    </Expander>
+
+</DataTemplate>
+
+        <DataTemplate x:Key="NumericFieldTemplate" DataType="{x:Type props:NumericFieldPropertyViewModel}">
+            <StackPanel Spacing="4">
+                <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
+                <NumericUpDown Value="{Binding Value, Mode=TwoWay}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="BooleanFieldTemplate" DataType="{x:Type props:BooleanFieldPropertyViewModel}">
+            <CheckBox Content="{Binding Schema.Name}" IsChecked="{Binding Value, Mode=TwoWay}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="EnumFieldProperty" DataType="{x:Type props:EnumFieldPropertyViewModel}">
+            <StackPanel Spacing="4">
+                <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
+                <ComboBox ItemsSource="{Binding Options}" SelectedItem="{Binding SelectedValue, Mode=TwoWay}" />
+                
+            </StackPanel>
+          
+        </DataTemplate>
+    </Window.Resources>
+
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -30,10 +77,10 @@
                     <Expander Header="Triggers" HorizontalAlignment="Stretch" IsExpanded="True">
         <ItemsControl ItemsSource="{Binding TriggerItems}">
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="x:String">
-                    <Button Content="{Binding}"
+                <DataTemplate>
+                    <Button Content="{Binding Model.NodeType}"
                             Command="{Binding $parent[ItemsControl].((vm:MainViewModel)DataContext).AddBlockCommand}"
-                            CommandParameter="{Binding}"
+                            CommandParameter="{Binding Model.NodeType}"
                             HorizontalAlignment="Stretch"
                             Margin="0,2" />
                 </DataTemplate>
@@ -44,10 +91,10 @@
                    <Expander Header="Logic" HorizontalAlignment="Stretch">
         <ItemsControl ItemsSource="{Binding LogicItems}">
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="x:String">
-                    <Button Content="{Binding}"
+                <DataTemplate>
+                    <Button Content="{Binding Model.NodeType }"
                             Command="{Binding $parent[ItemsControl].((vm:MainViewModel)DataContext).AddBlockCommand}"
-                            CommandParameter="{Binding}"
+                            CommandParameter="{Binding Model.NodeType}"
                             HorizontalAlignment="Stretch"
                             Margin="0,2" />
                 </DataTemplate>
@@ -58,10 +105,10 @@
                     <Expander Header="Actions" HorizontalAlignment="Stretch">
         <ItemsControl ItemsSource="{Binding ActionItems}">
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="x:String">
-                    <Button Content="{Binding}"
+                <DataTemplate>
+                    <Button Content="{Binding Model.NodeType}"
                             Command="{Binding $parent[ItemsControl].((vm:MainViewModel)DataContext).AddBlockCommand}"
-                            CommandParameter="{Binding}"
+                            CommandParameter="{Binding Model.NodeType}"
                             HorizontalAlignment="Stretch"
                             Margin="0,2" />
                 </DataTemplate>
@@ -158,20 +205,21 @@
                     PointerReleased="Node_PointerReleased"
                     PointerMoved="Node_PointerMoved"
                     >
-
+                  
                     <StackPanel
                         HorizontalAlignment="Stretch"
                       >
-
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             
                             FontSize="15"
-                            Text="{Binding Name}" />
+                            Text="{Binding NodeType}" />
 
-                        <!-- PORT -->
-                        <Button
+                        <!-- PORTS -->
+                        
+                           
+                            <Button
                             HorizontalAlignment="Right"
                             Margin="0,0,-20,0"
                             Width="20"
@@ -181,11 +229,32 @@
                             Command="{Binding $parent[ItemsControl].DataContext.PortClickedCommand}"
                            
                             CommandParameter="{Binding}" />
+                     
+                        <Button Content="Настроить" Command="{Binding OpenNodeProperties}">
+    <Button.Flyout>
+        <Flyout>
+            <StackPanel Width="280" Spacing="10">
+                <ItemsControl ItemsSource="{Binding PropertiesEditor.Fields}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!-- ContentControl подставит правильный DataTemplate
+                                 из ресурсов выше, по реальному типу Content -->
+                            <ContentControl Content="{Binding}" Margin="0,0,0,8" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
+                <Button Content="Применить"
+                        Command="{Binding PropertiesEditor.ApplyCommand}" />
+            </StackPanel>
+        </Flyout>
+    </Button.Flyout>
+</Button>
+                         <!-- Toggle mode -->
                         <Button Command="{Binding $parent[ItemsControl].DataContext.ToggleConnectionMode}" CommandParameter="{Binding}"/>
 
                     </StackPanel>
-
+                    
                 </Border>
 
             </DataTemplate>

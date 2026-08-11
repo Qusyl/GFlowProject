@@ -1,24 +1,28 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Domain.Nodes;
+using GFlowApp.Services;
 
 namespace GFlowApp.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
+    private readonly IClientService _serviceClient;
     private BlockViewModel? _selectedBlock;
 
     [ObservableProperty]
     private bool _isConnectionMode;
 
-    public ObservableCollection<string> ActionItems { get; }
+    public ObservableCollection<BlockItem> ActionItems { get; }
 
-    public ObservableCollection<string> LogicItems { get; }
+    public ObservableCollection<BlockItem> LogicItems { get; }
 
-    public ObservableCollection<string> TriggerItems { get; }
+    public ObservableCollection<BlockItem> TriggerItems { get; }
 
     public ObservableCollection<BlockViewModel> Blocks { get; }
 
@@ -27,30 +31,28 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private string? selectedItem;
 
-    public MainViewModel()
+    public MainViewModel(IClientService clientService)
     {
-        ActionItems = new ObservableCollection<string>
+        _serviceClient = clientService;
+        ActionItems = new ObservableCollection<BlockItem>
         {
-            "SqlAction",
-            "HttpAction"
+            new BlockItem(new BlockViewModel("SqlAction", Brushes.Red, 500, 500, _serviceClient ), "Action"),
+            new BlockItem(new BlockViewModel("HttpAction", Brushes.Red, 500, 500,_serviceClient ), "Action")
         };
-
-        LogicItems = new ObservableCollection<string>
+        LogicItems = new ObservableCollection<BlockItem>
         {
-            "CompareLogic"
+            new BlockItem(new BlockViewModel("CompareLogic", Brushes.Yellow, 500, 500, _serviceClient), "Logic")
         };
-
-        TriggerItems = new ObservableCollection<string>
+        TriggerItems = new ObservableCollection<BlockItem>
         {
-            "ManualTrigger"
+             new BlockItem(new BlockViewModel("ManualTrigger", Brushes.Red, 500, 500, _serviceClient), "Trigger"),
         };
-
         Blocks = new ObservableCollection<BlockViewModel>();
 
         Connections =
             new ObservableCollection<ConnectionViewModel>();
 
-        SelectedItem = TriggerItems[0];
+        SelectedItem = TriggerItems[0].Model.NodeType;
     }
 
     [RelayCommand]
@@ -100,15 +102,16 @@ public partial class MainViewModel : ViewModelBase
                 blockType,
                 color,
                 randX,
-                randY));
+                randY,
+                 _serviceClient));
     }
 
     [RelayCommand]
     private void PortClicked(BlockViewModel block)
     {
 
-        Console.WriteLine(
-            $"Port clicked: {block.Name}");
+      
+            
 
         
         if (!IsConnectionMode)
@@ -125,8 +128,8 @@ public partial class MainViewModel : ViewModelBase
             _selectedBlock = block;
             block.IsSelected = true;
 
-            Console.WriteLine(
-                $"Start block: {block.Name}");
+            
+               
 
             return;
         }
@@ -152,9 +155,8 @@ public partial class MainViewModel : ViewModelBase
 
         Connections.Add(connection);
 
-        Console.WriteLine(
-            $"Connection: {_selectedBlock.Name} -> {block.Name}");
 
+    
         
         _selectedBlock.IsSelected = false;
 

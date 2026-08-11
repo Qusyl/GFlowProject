@@ -7,7 +7,7 @@ using Application.Runtime;
 
 namespace GFlowApp.Services
 {
-    public class GFlowHttpClient
+    public class GFlowHttpClient : IClientService
     {
         private readonly HttpClient _client;
 
@@ -25,5 +25,12 @@ namespace GFlowApp.Services
 
             return await response.Content.ReadFromJsonAsync<RuntimeResult>();
          }
+
+        public async Task<NodeTypeSchema?> GetSchemaAsync(string NodeType)
+        {
+            var response = await _client.GetFromJsonAsync<NodeTypeSchema?>($"/api/workflow/nodes/schema/{NodeType}");
+
+            return response;
+        }
     }
 }
