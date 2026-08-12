@@ -12,13 +12,20 @@ namespace GFlowApp.ViewModels.Properties
         public static PropertyFieldViewModel Create(PropertySchema schema, JsonElement? element)
         {
             return schema.Type switch
-            {
-                "string" => new TextFieldPropertyViewModel(schema, element),
-                "number" => new NumericFieldPropertyViewModel(schema, element),
-                "boolean" => new BooleanFieldPropertyViewModel(schema, element),
-                "enum" => new EnumFieldPropertyViewModel(schema, element),
-                _ => new TextFieldPropertyViewModel(schema, element) 
-            };
+    {
+        "string" => new TextFieldPropertyViewModel(schema, element),
+
+        "number" => new NumericFieldPropertyViewModel(schema, element),
+
+        "boolean" => new BooleanFieldPropertyViewModel(schema, element),
+
+        "enum" => new EnumFieldPropertyViewModel(schema, element),
+
+        "object" => new ObjectFieldPropertyViewModel(schema, element),
+
+        _ => throw new NotSupportedException(
+            $"Unknown property type: {schema.Type}")
+    };
         } 
     }
 }

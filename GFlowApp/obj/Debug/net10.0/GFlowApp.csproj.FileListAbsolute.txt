@@ -1,3 +1,11 @@
+/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.csproj.AssemblyReference.cache
+/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/Avalonia/Resources.Inputs.cache
+/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/Avalonia/resources
+/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.GeneratedMSBuildEditorConfig.editorconfig
+/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.AssemblyInfoInputs.cache
+/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.AssemblyInfo.cs
+/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.csproj.CoreCompileInputs.cache
+/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.sourcelink.json
 /home/denis/Documents/Diploma/GFlow/GFlowApp/bin/Debug/net10.0/GFlowApp
 /home/denis/Documents/Diploma/GFlow/GFlowApp/bin/Debug/net10.0/GFlowApp.deps.json
 /home/denis/Documents/Diploma/GFlow/GFlowApp/bin/Debug/net10.0/GFlowApp.runtimeconfig.json
@@ -113,14 +121,6 @@
 /home/denis/Documents/Diploma/GFlow/GFlowApp/bin/Debug/net10.0/Domain.dll
 /home/denis/Documents/Diploma/GFlow/GFlowApp/bin/Debug/net10.0/Domain.pdb
 /home/denis/Documents/Diploma/GFlow/GFlowApp/bin/Debug/net10.0/Application.pdb
-/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.csproj.AssemblyReference.cache
-/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/Avalonia/Resources.Inputs.cache
-/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/Avalonia/resources
-/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.GeneratedMSBuildEditorConfig.editorconfig
-/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.AssemblyInfoInputs.cache
-/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.AssemblyInfo.cs
-/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.csproj.CoreCompileInputs.cache
-/home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.sourcelink.json
 /home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.csproj.Up2Date
 /home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/GFlowApp.dll
 /home/denis/Documents/Diploma/GFlow/GFlowApp/obj/Debug/net10.0/refint/GFlowApp.dll

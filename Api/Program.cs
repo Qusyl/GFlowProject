@@ -4,6 +4,7 @@ using Application.Executors.Action.Database.Dialects;
 using Application.Executors.Action.Http.Request;
 using Application.Executors.Configurations;
 using Application.Runtime.Workflow;
+using GFlowApp.Services.Schemas;
 using MainApi.ExeptionHandler;
 using MainApi.Extensions;
 
@@ -12,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddSingleton<IExecutorResolver, ExecutorRegistry>();
+builder.Services.AddSingleton<ISchemaRegister, SchemaRegister>();
 builder.Services.AddSingleton<IWorkflowFactory, WorkflowFactory>();
 builder.Services.AddSingleton<ISqlDialectFactory, SqlDialectFactory>();
 builder.Services.AddHttpClient<ActionHttpRequestExecutor>().ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
@@ -23,6 +25,7 @@ builder.Services.AddHttpClient<ActionHttpRequestExecutor>().ConfigurePrimaryHttp
 
 builder.Services.RegisterAllExecutors();
 builder.Services.RegisterAllSqlHandlers();
+builder.Services.RegisterAllSchemaProviders();
 builder.Services.AddOpenApi();
 builder.Services.AddOpenApiDocument(config =>
 {

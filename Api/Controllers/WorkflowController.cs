@@ -2,6 +2,7 @@ using Application.Dto;
 using Application.Runtime;
 using Application.Runtime.Workflow;
 using GFlowApp.Services;
+using GFlowApp.Services.Schemas;
 using Microsoft.AspNetCore.Mvc;
 using Tmds.DBus.Protocol;
 
@@ -12,10 +13,13 @@ namespace MainApi.Controllers;
 public class WorkflowController : ControllerBase
 {
     private readonly IWorkflowFactory _workflowFactory;
+
+    private readonly ISchemaRegister _schemasRegister;
     private Dictionary<string, List<PropertySchema>> _cachedSchemas;
-    public WorkflowController(IWorkflowFactory workflowFactory)
+    public WorkflowController(IWorkflowFactory workflowFactory, ISchemaRegister schemaRegister)
     {
         _workflowFactory = workflowFactory;
+        _schemasRegister = schemaRegister;
         _cachedSchemas = new();
 
     }
@@ -39,18 +43,19 @@ public class WorkflowController : ControllerBase
     [HttpGet("nodes/schema/{nodeType}")]
     public ActionResult<NodeTypeSchema> GetSchema(string nodeType)
     {
-        if (_cachedSchemas.TryGetValue(nodeType, out var schema))
+        if (_cachedSchemas.TryGetValue(nodeType, out var cached))
         {
+            return Ok(cached);
+        }
+        if (_schemasRegister.TryGet(nodeType, out var schema))
+        {
+
             return Ok(schema);
         }
-        var schema = nodeType switch
+
+        return StatusCode(500, new
         {
-            "sql" => new NodeTypeSchema(new List<PropertySchema>
-            {
-                "string",
-                
-            }),
-            
-        };
+            Error = $"Не удалось получить схему для типа {nodeType}"
+        });
     } 
 }
