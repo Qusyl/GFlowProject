@@ -1,4 +1,5 @@
 
+using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -18,19 +19,31 @@ namespace GFlowApp.Services
 
         public async Task<RuntimeResult?> ExecuteAsync(WorkflowDto dto)
         {
+            try
+            {
+                var response = await _client.PostAsJsonAsync("/v1/Workflow/execute", dto);
 
-            var response = await _client.PostAsJsonAsync("/api/workflow/execute", dto);
-
-            response.EnsureSuccessStatusCode();
-
+                response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<RuntimeResult>();
+            }catch(Exception ex)
+            {
+                System.Console.WriteLine($"HttpClientError: {ex.Message}");
+                throw;
+            }
          }
 
         public async Task<NodeTypeSchema?> GetSchemaAsync(string NodeType)
         {
-            var response = await _client.GetFromJsonAsync<NodeTypeSchema?>($"/api/workflow/nodes/schema/{NodeType}");
+            try
+            {
+                 var response = await _client.GetFromJsonAsync<NodeTypeSchema?>($"/v1/Workflow/nodes/schema/{NodeType}");
 
             return response;
+            }catch(Exception ex)
+            {
+                System.Console.WriteLine($"HttpClientError: {ex.Message}");
+                throw;
+            }
         }
     }
 }

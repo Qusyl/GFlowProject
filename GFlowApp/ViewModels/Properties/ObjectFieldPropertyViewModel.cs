@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using GFlowApp.Services;
+using GFlowApp.Services.Schemas;
 
 namespace GFlowApp.ViewModels.Properties
 {
     public class ObjectFieldPropertyViewModel : PropertyFieldViewModel
     {
-        public ObservableCollection<PropertyFieldViewModel> Fields { get; }
-        public ObjectFieldPropertyViewModel(PropertySchema schema, JsonElement? element) : base(schema)
+        public ObservableCollection<PropertyFieldViewModel> Fields { get; } = new();
+        public ObjectFieldPropertyViewModel(PropertySchema schema, JsonElement? element, Dictionary<string, List<PropertyVariant>> references) : base(schema)
         {
             if (schema.Properties is null)
             {
@@ -25,7 +26,7 @@ namespace GFlowApp.ViewModels.Properties
                 {
                     value = property;
                 }
-                Fields!.Add(PropertyFieldViewModelFactory.Create(propertySchema, value));
+                Fields.Add(PropertyFieldViewModelFactory.Create(propertySchema, value, references));
             }
            
         }

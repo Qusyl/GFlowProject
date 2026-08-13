@@ -22,8 +22,7 @@ public partial class App : Avalonia.Application
         var services = new ServiceCollection();
         services.AddHttpClient<IClientService, GFlowHttpClient>(client =>
         {
-
-            client.BaseAddress = new System.Uri("https://localhost:7000");
+            client.BaseAddress = new System.Uri("https://localhost:7167");
         });
 
         services.AddSingleton<MainViewModel>();

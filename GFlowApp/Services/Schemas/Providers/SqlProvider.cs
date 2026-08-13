@@ -390,7 +390,7 @@ namespace GFlowApp.Services.Schemas.Providers
      }
             };
 
-            schema.Definition[QueryConditionRefName] = BuildQueryConditionVariants();
+            schema.References[QueryConditionRefName] = BuildQueryConditionVariants();
 
             return schema;
          }

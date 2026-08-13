@@ -35,7 +35,7 @@ namespace GFlowApp.ViewModels.Properties
                 {
                     currentValues.TryGetValue(prop.Name, out var element);
                     var hasValue = currentValues.ContainsKey(prop.Name);
-                    Fields.Add(PropertyFieldViewModelFactory.Create(prop, hasValue ? element : default));
+                    Fields.Add(PropertyFieldViewModelFactory.Create(prop, hasValue ? element : default, _schema!.References));
                 }
             }
 

@@ -8,6 +8,6 @@ namespace GFlowApp.Services
 {
     public class NodeTypeSchema { 
         public List<PropertySchema> Properties { get; set; }
-        public Dictionary<string, List<PropertyVariant>> Definition { get; set; } = new();
+        public Dictionary<string, List<PropertyVariant>> References { get; set; } = new();
     };
 }

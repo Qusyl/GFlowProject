@@ -14,47 +14,115 @@
         Width="1920"
         Height="1080">
         <Window.Resources>
-        <DataTemplate x:Key="TextFieldTemplate" DataType="{x:Type props:TextFieldPropertyViewModel}">
-            <StackPanel Spacing="4">
-                <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
-                <TextBox Text="{Binding Value, Mode=TwoWay}" />
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate
-    x:Key="ObjectFieldTemplate"
-    DataType="{x:Type props:ObjectFieldPropertyViewModel}">
-
-    <Expander IsExpanded="True">
-        <Expander.Header>
-            <TextBlock Text="{Binding Schema.Name}"
-                       FontWeight="SemiBold" />
-        </Expander.Header>
-
-        <ItemsControl ItemsSource="{Binding Fields}" />
-    </Expander>
-
-</DataTemplate>
-
-        <DataTemplate x:Key="NumericFieldTemplate" DataType="{x:Type props:NumericFieldPropertyViewModel}">
-            <StackPanel Spacing="4">
-                <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
-                <NumericUpDown Value="{Binding Value, Mode=TwoWay}" />
-            </StackPanel>
-        </DataTemplate>
-
-        <DataTemplate x:Key="BooleanFieldTemplate" DataType="{x:Type props:BooleanFieldPropertyViewModel}">
-            <CheckBox Content="{Binding Schema.Name}" IsChecked="{Binding Value, Mode=TwoWay}" />
-        </DataTemplate>
-
-        <DataTemplate x:Key="EnumFieldProperty" DataType="{x:Type props:EnumFieldPropertyViewModel}">
-            <StackPanel Spacing="4">
-                <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
-                <ComboBox ItemsSource="{Binding Options}" SelectedItem="{Binding SelectedValue, Mode=TwoWay}" />
-                
-            </StackPanel>
-          
-        </DataTemplate>
+            <local:JsonToStringElementConverter x:Key="JsonToStringElementConverter"/>
+        
     </Window.Resources>
+    <Window.DataTemplates>
+<DataTemplate DataType="{x:Type props:TextFieldPropertyViewModel}">
+        <StackPanel Spacing="4">
+            <TextBlock
+                Text="{Binding Schema.Name}"
+                FontWeight="SemiBold" />
+
+            <TextBox Text="{Binding Value, Mode=TwoWay}" />
+        </StackPanel>
+    </DataTemplate>
+     <DataTemplate DataType="{x:Type props:ArrayFieldPropertyViewModel}">
+    <StackPanel Spacing="4">
+        <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
+
+        <ItemsControl ItemsSource="{Binding Values}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding}" Margin="0,2" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</DataTemplate>
+<DataTemplate DataType="{x:Type props:DictionaryFieldPropertyViewModel}">
+    <StackPanel Spacing="4">
+        <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
+
+        <ItemsControl ItemsSource="{Binding Values}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding}" Margin="0,2" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</DataTemplate> 
+
+ <DataTemplate DataType="{x:Type props:DictionaryItemViewModel}">
+    <Grid ColumnDefinitions="Auto, *">
+        <TextBlock Grid.Column="0" Text="{Binding Key}" FontWeight="SemiBold" Margin="0,0,8,0" VerticalAlignment="Center" />
+        <ContentControl Grid.Column="1" Content="{Binding Value}" />
+    </Grid>
+</DataTemplate> 
+ <DataTemplate DataType="{x:Type props:PolymorphicFieldPropertyViewModel}">
+    <StackPanel Spacing="4">
+        <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
+
+        <ComboBox ItemsSource="{Binding Variants}"
+                  SelectedItem="{Binding SelectedVariant, Mode=TwoWay}"
+                  DisplayMemberBinding="{Binding Name}" />
+
+        <Border BorderBrush="#D0D0D0" BorderThickness="1" Padding="8" Margin="0,4,0,0"
+                IsVisible="{Binding SelectedVariant, Converter={x:Static ObjectConverters.IsNotNull}}">
+            <ItemsControl ItemsSource="{Binding Fields}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}" Margin="0,4" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+    </StackPanel>
+</DataTemplate> 
+     <DataTemplate DataType="{x:Type props:ObjectFieldPropertyViewModel}">
+        <Expander IsExpanded="True">
+            <Expander.Header>
+                <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
+            </Expander.Header>
+
+            <ItemsControl ItemsSource="{Binding Fields}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}" Margin="4,4,4,4" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Expander>
+    </DataTemplate> 
+
+     <DataTemplate DataType="{x:Type props:NumericFieldPropertyViewModel}">
+        <StackPanel Spacing="4">
+            <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
+            <NumericUpDown Value="{Binding Value, Mode=TwoWay}" />
+        </StackPanel>
+    </DataTemplate> 
+
+    <DataTemplate DataType="{x:Type props:BooleanFieldPropertyViewModel}">
+        <CheckBox Content="{Binding Schema.Name}" IsChecked="{Binding Value, Mode=TwoWay}" />
+    </DataTemplate> 
+
+    <DataTemplate DataType="{x:Type props:EnumFieldPropertyViewModel}">
+        <StackPanel Spacing="4">
+            <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
+            <ComboBox ItemsSource="{Binding Options}" SelectedItem="{Binding SelectedValue, Mode=TwoWay}" />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type props:AnyFieldPropertyViewModel}">
+    <StackPanel Spacing="4">
+        <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
+        <TextBox Text="{Binding Value, Mode=TwoWay, Converter={StaticResource JsonElementToStringConverter}}"
+                 AcceptsReturn="True"
+                 FontFamily="Consolas"
+                 Height="60" />
+    </StackPanel>
+</DataTemplate> 
+    </Window.DataTemplates>
 
     <Design.DataContext>
         <vm:MainViewModel />
