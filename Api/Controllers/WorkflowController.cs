@@ -15,7 +15,7 @@ public class WorkflowController : ControllerBase
     private readonly IWorkflowFactory _workflowFactory;
 
     private readonly ISchemaRegister _schemasRegister;
-    private Dictionary<string, List<PropertySchema>> _cachedSchemas;
+    private Dictionary<string, NodeTypeSchema> _cachedSchemas;
     public WorkflowController(IWorkflowFactory workflowFactory, ISchemaRegister schemaRegister)
     {
         _workflowFactory = workflowFactory;
@@ -47,10 +47,18 @@ public class WorkflowController : ControllerBase
         {
             return Ok(cached);
         }
-        if (_schemasRegister.TryGet(nodeType, out var schema))
+        var parseNodeType = nodeType switch
         {
-
+            string s when s.Contains("Action") => s.Replace("Action", "").Trim().ToLower(),
+            string s when s.Contains("Logic") => s.Replace("Logic","").Trim().ToLower(),
+            string s when s.Contains("Trigger") => s.Replace("Trigger", "").Trim().ToLower(),
+            _ => throw new NotSupportedException($"not supported type {nodeType}") 
+        };
+        if (_schemasRegister.TryGet(parseNodeType, out var schema))
+        {
+            _cachedSchemas.Add(nodeType, schema!);
             return Ok(schema);
+
         }
 
         return StatusCode(500, new

@@ -17,11 +17,11 @@ namespace Application.Executors.Action.Database
     {
         private readonly ISqlDialectFactory _dialectFactorty;
 
-        private readonly IServiceProvider _provider;
-        public ActionSqlQueryExecutor(ISqlDialectFactory dialectFactory, IServiceProvider provider)
+        private readonly ISqlQueryHandler _queryHandler;
+        public ActionSqlQueryExecutor(ISqlDialectFactory dialectFactory, ISqlQueryHandler handler)
         {
             _dialectFactorty = dialectFactory;
-            _provider = provider;
+            _queryHandler = handler;
         }
         public async Task<NodeResult> ExecuteAsync(NodeExecutionContext context)
         {
@@ -42,15 +42,8 @@ namespace Application.Executors.Action.Database
 
                 var dialect = _dialectFactorty.GetDialect(configuration.SqlConnection.DatabaseType);
 
-                var queryResult = definition switch
-                {
-                    SelectDefinition select => await _provider.GetRequiredService<ISqlQueryHandler<SelectDefinition>>().HandleAsync(select, sqlConnection, dialect),
-                    InsertDefinition insert => await _provider.GetRequiredService<ISqlQueryHandler<InsertDefinition>>().HandleAsync(insert, sqlConnection, dialect),
-                    UpdateDefinition update => await _provider.GetRequiredService<ISqlQueryHandler<UpdateDefinition>>().HandleAsync(update, sqlConnection, dialect),
-                    DeleteDefinition delete => await _provider.GetRequiredService<ISqlQueryHandler<DeleteDefinition>>().HandleAsync(delete, sqlConnection, dialect),
-                    RawDefinition raw => await _provider.GetRequiredService<ISqlQueryHandler<RawDefinition>>().HandleAsync(raw, sqlConnection, dialect),
-                    _ => throw new NotSupportedException($"Operation {nameof(definition.Operation)} not supported!")
-                };
+                var queryResult = await _queryHandler.HandleAsync(definition, sqlConnection, dialect);
+               
 
                 context.WorkflowContext.SetVariable("QueryResult", new VariableValue(new VariableDefenition("QueryResult", Logic.Logics.ArgumentType.Integer), queryResult));
 

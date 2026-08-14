@@ -18,6 +18,11 @@ namespace GFlowApp.ViewModels.Properties
             Value = element is { ValueKind: JsonValueKind.String } e ? e.GetString() : element?.ToString();
         }
 
+        public override void LoadFromJson(JsonElement element)
+        {
+            throw new NotImplementedException();
+        }
+
         public override JsonElement ToJsonElement()
         {
             return JsonSerializer.SerializeToElement(Value);

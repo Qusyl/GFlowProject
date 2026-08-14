@@ -10,7 +10,7 @@ using Dapper;
 
 namespace Application.Executors.Action.Database.Handlers
 {
-    public class RawSqlQueryHandler : ISqlQueryHandler<RawDefinition>
+    public class RawSqlQueryHandler : ISqlQueryHandler
     {
         public async Task<QueryResult> HandleAsync(RawDefinition def, IDbConnection connection, ISqlDialect dialect)
         {

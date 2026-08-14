@@ -12,18 +12,52 @@ namespace GFlowApp.Services
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return value is JsonElement e ? e.GetRawText() : "null";
+            try
+            {
+                if (value is JsonElement element)
+                {
+                    if (element.ValueKind == JsonValueKind.String)
+                    {
+                        return element.GetString() ?? string.Empty;
+                    }
+
+                    return element.GetRawText();
+                }
+                return value?.ToString() ?? string.Empty;
+            }catch(Exception ex)
+            {
+                System.Console.WriteLine($"Ошибка - {ex.Message}");
+                throw;
+            }
+            
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            try
+            if (value is string str)
             {
-                return JsonDocument.Parse(value as string ?? "null").RootElement;
-            }catch(Exception ex)
+                try
+                {
+                    using var doc = JsonDocument.Parse(str);
+                    return doc.RootElement.Clone();
+                }
+                catch
+                {
+                  
+                     try
             {
-                return JsonSerializer.SerializeToElement(value as string);
+                var escaped = JsonSerializer.Serialize(str);
+                using var doc = JsonDocument.Parse(escaped);
+                return doc.RootElement.Clone();
             }
+            catch
+            {
+                return null;
+            }
+                }
+            }
+         
+            return null;
         }
     }
 }

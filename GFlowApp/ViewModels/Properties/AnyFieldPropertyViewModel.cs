@@ -13,9 +13,27 @@ namespace GFlowApp.ViewModels.Properties
         [ObservableProperty]
         private JsonElement? _value;
 
+        [ObservableProperty]
+        private string? _textValue;
+
         public AnyFieldPropertyViewModel(PropertySchema schema, JsonElement? element) : base(schema)
         {
             Value = element;
+        }
+
+        public override void LoadFromJson(JsonElement element)
+        {
+            if(element.ValueKind == JsonValueKind.String)
+            {
+                TextValue = element.GetString();
+            }else if(element.ValueKind == JsonValueKind.Null)
+            {
+                TextValue = null;
+            }
+            else
+            {
+                TextValue = element.GetRawText();
+            }
         }
 
         public override JsonElement ToJsonElement()

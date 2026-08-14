@@ -19,12 +19,10 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+       
     }
-
-    private void Button_OnClick(object? sender, RoutedEventArgs args)
-    {
-
-    }
+ 
+    
 
     private void Node_PointerPressed(object? sender, PointerPressedEventArgs args)
     {
@@ -73,9 +71,10 @@ public partial class MainWindow : Window
             args.Pointer.Capture(null);
         }
     }
-    
+
     private void Node_PointerCaptureLost(object? sender, PointerCaptureLostEventArgs args)
     {
         _draggedBlock = null;
     }
+    
 }

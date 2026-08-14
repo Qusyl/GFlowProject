@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Application.Executors.Action.Database.Definitions
 {
-    public sealed record RawDefinition : QueryDefinition
+    public  record RawDefinition 
     {
-        public override OperationType Operation => OperationType.Raw;
+        public OperationType Operation => OperationType.Raw;
 
         public Dictionary<string, object?> Parameters { get; set; } = new();
 

@@ -19,7 +19,9 @@ namespace GFlowApp.ViewModels.Properties
             Schema = schema;
 
         }
-        
-         public abstract JsonElement ToJsonElement();
+
+        public abstract JsonElement ToJsonElement();
+
+        public abstract void LoadFromJson(JsonElement element);
     }
 }

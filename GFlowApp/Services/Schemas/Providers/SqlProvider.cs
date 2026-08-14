@@ -10,79 +10,11 @@ namespace GFlowApp.Services.Schemas.Providers
     public class SqlProvider : INodeSchemaProvider
     {
         public string NodeType => "sql";
-        private const string QueryConditionRefName = "QueryCondition";
-        private static List<PropertyVariant> BuildQueryConditionVariants()
-        {
-            return new List<PropertyVariant>
-    {
-        new PropertyVariant
-        {
-            Name = "comparison",
-            Properties = new List<PropertySchema>
-            {
-                new PropertySchema { Type = "string", Name = "Field", IsRequired = true },
-                new PropertySchema { Type = "any", Name = "Value", IsRequired = true },
-                new PropertySchema
-                {
-                    Type = "enum",
-                    Name = "Operator",
-                    IsRequired = true,
-                    EnumValues = Enum.GetNames<ComparisonOperator>().ToList()
-                }
-            }
-        },
-        new PropertyVariant
-        {
-            Name = "group",
-            Properties = new List<PropertySchema>
-            {
-                new PropertySchema
-                {
-                    Type = "enum",
-                    Name = "Operator",
-                    IsRequired = true,
-                    EnumValues = Enum.GetNames<LogicalOperator>().ToList()
-                },
-                new PropertySchema
-                {
-                    Type = "array",
-                    Name = "Conditions",
-                    IsRequired = true,
-                    ElementSchema = new PropertySchema
-                    {
-                        Type = "ref",
-                        Name = "Condition",
-                        IsRequired = true,
-                        Ref = QueryConditionRefName
-                    }
-                }
-            }
-        },
-        new PropertyVariant
-        {
-            Name = "not",
-            Properties = new List<PropertySchema>
-            {
-                new PropertySchema
-                {
-                    Type = "ref",
-                    Name = "Inner",
-                    IsRequired = true,
-                    Ref = QueryConditionRefName
-                }
-            }
-        }
-    };
-        }
+       
+    
         public NodeTypeSchema GetSchema()
         {
-            var whereRef = new PropertySchema
-            {
-                Type = "ref",
-                Name = "Where",
-                Ref = QueryConditionRefName
-            };
-
+            
             var schema = new NodeTypeSchema
             {
                 Properties =
@@ -92,7 +24,7 @@ namespace GFlowApp.Services.Schemas.Providers
 
          new PropertySchema
          {
-             Type = "polymorphic",
+             Type = "object",
              Name = "Definition",
              IsRequired = true,
 
@@ -101,135 +33,11 @@ namespace GFlowApp.Services.Schemas.Providers
 
              Properties = new List<PropertySchema>
              {
-                 new PropertySchema
-                 {
-                     Type = "string",
-                     Name = "TableName",
-                     IsRequired = true
-                 }
-             },
-
-             Variants = new List<PropertyVariant>
-             {
-
-
-                 new PropertyVariant
-                 {
-                     Name = "Select",
-
-                     Properties = new List<PropertySchema>
-                     {
-                         new PropertySchema
-                         {
-                             Type = "array",
-                             Name = "Columns",
-                             IsRequired = true,
-
-                             ElementSchema = new PropertySchema
-                             {
-                                 Type = "string",
-                                 Name = "Column",
-                                 IsRequired = true
-                             }
-                         },
-
-                         new PropertySchema
-                         {
-                             Type = "polymorphic",
-                             Name = "Where",
-                             IsRequired = false,
-
-                             Descriminator = "type",
-
-                             Variants = BuildQueryConditionVariants()
-                         }
-                     }
-                 },
-
-
-
-                 new PropertyVariant
-                 {
-                     Name = "Insert",
-
-                     Properties = new List<PropertySchema>
-                     {
-                         new PropertySchema
-                         {
-                             Type = "dictionary",
-                             Name = "Values",
-                             IsRequired = true,
-
-                             ElementSchema = new PropertySchema
-                             {
-                                 Type = "any",
-                                 Name = "Value"
-                             }
-                         }
-                     }
-                 },
-
-
-
-                 new PropertyVariant
-                 {
-                     Name = "Update",
-
-                     Properties = new List<PropertySchema>
-                     {
-                         new PropertySchema
-                         {
-                             Type = "dictionary",
-                             Name = "Values",
-                             IsRequired = true,
-
-                             ElementSchema = new PropertySchema
-                             {
-                                 Type = "any",
-                                 Name = "Value"
-                             }
-                         },
-
-                         new PropertySchema
-                         {
-                             Type = "polymorphic",
-                             Name = "Where",
-                             IsRequired = true,
-
-                             Descriminator = "type",
-
-                             Variants = BuildQueryConditionVariants()
-                         }
-                     }
-                 },
-
-
-
-                 new PropertyVariant
-                 {
-                     Name = "Delete",
-
-                     Properties = new List<PropertySchema>
-                     {
-                         new PropertySchema
-                         {
-                             Type = "polymorphic",
-                             Name = "Where",
-                             IsRequired = true,
-
-                             Descriminator = "type",
-
-                             Variants = BuildQueryConditionVariants()
-                         }
-                     }
-                 },
-
-
-
-                 new PropertyVariant
+                
+                    new PropertySchema
                  {
                      Name = "Raw",
-
+                     Type="object",
                      Properties = new List<PropertySchema>
                      {
                          new PropertySchema
@@ -253,7 +61,8 @@ namespace GFlowApp.Services.Schemas.Providers
                          }
                      }
                  }
-             }
+             },
+ 
          },
 
 
@@ -390,7 +199,7 @@ namespace GFlowApp.Services.Schemas.Providers
      }
             };
 
-            schema.References[QueryConditionRefName] = BuildQueryConditionVariants();
+           
 
             return schema;
          }

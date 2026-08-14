@@ -109,5 +109,10 @@ namespace GFlowApp.ViewModels.Properties
             return Variants
             .FirstOrDefault(v => string.Equals(v.Name, value, StringComparison.OrdinalIgnoreCase));
         }
+
+        public override void LoadFromJson(JsonElement element)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

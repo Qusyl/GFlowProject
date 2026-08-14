@@ -2,10 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
+using Application.Dto;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Domain.Graph;
 using Domain.Nodes;
+using Domain.Ports;
 using GFlowApp.Services;
 
 namespace GFlowApp.ViewModels;
@@ -17,7 +21,6 @@ public partial class MainViewModel : ViewModelBase
 
     [ObservableProperty]
     private bool _isConnectionMode;
-
     public ObservableCollection<BlockItem> ActionItems { get; }
 
     public ObservableCollection<BlockItem> LogicItems { get; }
@@ -36,16 +39,16 @@ public partial class MainViewModel : ViewModelBase
         _serviceClient = clientService;
         ActionItems = new ObservableCollection<BlockItem>
         {
-            new BlockItem(new BlockViewModel("SqlAction", Brushes.Red, 500, 500, _serviceClient ), "Action"),
-            new BlockItem(new BlockViewModel("HttpAction", Brushes.Red, 500, 500,_serviceClient ), "Action")
+            new BlockItem(new BlockViewModel("SqlAction",NodeCategory.Action ,Brushes.Red, 500, 500, _serviceClient ) ,"Action"),
+            new BlockItem(new BlockViewModel("HttpAction",NodeCategory.Action,Brushes.Red, 500, 500,_serviceClient ), "Action")
         };
         LogicItems = new ObservableCollection<BlockItem>
         {
-            new BlockItem(new BlockViewModel("CompareLogic", Brushes.Yellow, 500, 500, _serviceClient), "Logic")
+            new BlockItem(new BlockViewModel("CompareLogic",NodeCategory.Logic ,Brushes.Yellow, 500, 500, _serviceClient) ,"Logic")
         };
         TriggerItems = new ObservableCollection<BlockItem>
         {
-             new BlockItem(new BlockViewModel("ManualTrigger", Brushes.Red, 500, 500, _serviceClient), "Trigger"),
+             new BlockItem(new BlockViewModel("ManualTrigger",NodeCategory.Trigger ,Brushes.Red, 500, 500, _serviceClient),"Trigger"),
         };
         Blocks = new ObservableCollection<BlockViewModel>();
 
@@ -54,6 +57,26 @@ public partial class MainViewModel : ViewModelBase
 
         SelectedItem = TriggerItems[0].Model.NodeType;
     }
+
+    [RelayCommand]
+    public async Task ExecuteWorkflow()
+    {
+        var nodes = new List<NodeExecution>();
+        var edges = new List<Edge>();
+
+        foreach (var block in Blocks)
+        {
+            var node = new NodeExecution(
+                new Node(type: block.NodeType,
+                properties: block.LoadProperties()),
+
+                new NodeDescriptor(DisplayName: block.NodeType, NodeCategory: block.Category, new List<PortsDescriptor>())
+            );
+            nodes.Add(node);
+        }
+        var workflowDto = new WorkflowDto(nodes,edges );
+    }
+
 
     [RelayCommand]
     public void ToggleConnectionMode()
@@ -80,26 +103,24 @@ public partial class MainViewModel : ViewModelBase
 
         var random = new Random();
 
+   
+
         var randX = random.Next(100, 700);
         var randY = random.Next(100, 500);
 
-        var color = blockType switch
+        ( IImmutableSolidColorBrush color, NodeCategory category ) = blockType switch
         {
-            string type when type.Contains("Action")
-                => Brushes.Red,
+            string s when s.Contains("Action") => (Brushes.Red, NodeCategory.Action),
+            string s when s.Contains("Logic") => (Brushes.Yellow, NodeCategory.Logic),
+            string s when s.Contains("Trigger") => (Brushes.Aquamarine, NodeCategory.Trigger),
+                _ => throw new NotSupportedException("Not supported block type") 
+        }; 
 
-            string type when type.Contains("Logic")
-                => Brushes.Yellow,
-
-            string type when type.Contains("Trigger")
-                => Brushes.Azure,
-
-            _ => Brushes.Bisque
-        };
 
         Blocks.Add(
             new BlockViewModel(
                 blockType,
+                category,
                 color,
                 randX,
                 randY,
@@ -155,9 +176,6 @@ public partial class MainViewModel : ViewModelBase
 
         Connections.Add(connection);
 
-
-    
-        
         _selectedBlock.IsSelected = false;
 
         _selectedBlock = null;

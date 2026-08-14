@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Application.Executors.Action.Database.Definitions;
 
 
 namespace Application.Executors.Action.Database
@@ -6,11 +7,11 @@ namespace Application.Executors.Action.Database
     public sealed class SqlNodeConfiguration {
 
         
-        public QueryDefinition Definition { get; init; }
+        public RawDefinition Definition { get; init; }
   
         public SqlConnectionConfiguration SqlConnection { get; init; }
 
-        public SqlNodeConfiguration(QueryDefinition definition, SqlConnectionConfiguration sqlConnection)
+        public SqlNodeConfiguration(RawDefinition definition, SqlConnectionConfiguration sqlConnection)
         {
             Definition = definition;
             SqlConnection = sqlConnection;

@@ -5,6 +5,7 @@
         xmlns:props="using:GFlowApp.ViewModels.Properties"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="using:GFlowApp.Services"
+      
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
         x:Class="GFlowApp.Views.MainWindow"
@@ -15,7 +16,7 @@
         Height="1080">
         <Window.Resources>
             <local:JsonToStringElementConverter x:Key="JsonToStringElementConverter"/>
-        
+            <local:IsZeroElementConverter x:Key="IsZeroElementConverter"/>
     </Window.Resources>
     <Window.DataTemplates>
 <DataTemplate DataType="{x:Type props:TextFieldPropertyViewModel}">
@@ -41,18 +42,98 @@
     </StackPanel>
 </DataTemplate>
 <DataTemplate DataType="{x:Type props:DictionaryFieldPropertyViewModel}">
-    <StackPanel Spacing="4">
-        <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
-
-        <ItemsControl ItemsSource="{Binding Values}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <ContentControl Content="{Binding}" Margin="0,2" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </StackPanel>
-</DataTemplate> 
+    <Border BorderBrush="#E0E0E0" 
+            BorderThickness="1" 
+            CornerRadius="4" 
+            Padding="8"
+            Margin="0,4"
+            HorizontalAlignment="Stretch">
+        <StackPanel Spacing="8" HorizontalAlignment="Stretch">
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <TextBlock Text="{Binding Schema.Name}" 
+                           FontWeight="SemiBold" 
+                           FontSize="13"
+                           VerticalAlignment="Center" />
+                
+                <Button Content="➕ Добавить параметр"
+                        Command="{Binding AddItemCommand}"
+                        Margin="12,0,0,0"
+                        Padding="12,4"
+                        CornerRadius="4"
+                        Background="#EE690B"
+                        Foreground="White"
+                        FontSize="12"
+                        Cursor="Hand"
+                        HorizontalAlignment="Right" />
+            </StackPanel>
+            
+         
+            <TextBlock Text="Нет параметров. Нажмите 'Добавить параметр' для создания."
+                       Foreground="Gray"
+                       FontStyle="Italic"
+                       FontSize="12"
+                       IsVisible="{Binding Values.Count, Converter={x:Static local:IsZeroElementConverter.Instance}}" />
+            
+          
+            <ItemsControl ItemsSource="{Binding Values}"
+                          HorizontalAlignment="Stretch">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type props:DictionaryItemViewModel}">
+                        <Border BorderBrush="#E0E0E0" 
+                                BorderThickness="0,0,0,1" 
+                                Padding="4,8"
+                                Margin="0,2">
+                            <Grid ColumnDefinitions="Auto, *, Auto" 
+                                  HorizontalAlignment="Stretch"
+                                  RowDefinitions="Auto, Auto">
+                                
+                           
+                                <TextBox Grid.Column="0" 
+                                         Grid.Row="0"
+                                         Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width="120"
+                                         Margin="0,0,8,0"
+                                         VerticalAlignment="Center"
+                                         Watermark="Ключ" />
+                                
+                             
+                                <ContentControl Grid.Column="1" 
+                                                Grid.Row="0"
+                                                Content="{Binding Value}" 
+                                                Margin="0,0,8,0"
+                                                HorizontalAlignment="Stretch" />
+                                
+                              
+                                <Button Grid.Column="2" 
+                                        Grid.Row="0"
+                                        Content="✕"
+                                        Command="{Binding RemoveCommand}"
+                                        Background="Transparent"
+                                        Foreground="#CC0000"
+                                        FontWeight="Bold"
+                                        FontSize="16"
+                                        Padding="4,0"
+                                        Cursor="Hand"
+                                        VerticalAlignment="Center" />
+                                
+                             
+                                <TextBlock Grid.Column="0" 
+                                           Grid.Row="1"
+                                           Grid.ColumnSpan="3"
+                                           Text="Введите ключ и значение"
+                                           Foreground="Gray"
+                                           FontSize="10"
+                                           FontStyle="Italic"
+                                           Margin="0,4,0,0" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Border>
+</DataTemplate>
 
  <DataTemplate DataType="{x:Type props:DictionaryItemViewModel}">
     <Grid ColumnDefinitions="Auto, *">
@@ -95,7 +176,27 @@
             </ItemsControl>
         </Expander>
     </DataTemplate> 
-
+<DataTemplate DataType="{x:Type props:ReferenceFieldPropertyViewModel}">
+    <Border BorderBrush="#E0E0E0" 
+            BorderThickness="1" 
+            CornerRadius="4" 
+            Padding="8"
+            Margin="0,4"
+            HorizontalAlignment="Stretch">
+        <StackPanel Spacing="4" HorizontalAlignment="Stretch">
+           
+            <TextBlock Text="{Binding Schema.Name}" 
+                       FontWeight="SemiBold" 
+                       FontSize="13" 
+                       Foreground="#333" />
+            
+            
+            <ContentControl Content="{Binding Value}" 
+                            Margin="4,4,4,4"
+                            HorizontalAlignment="Stretch" />
+        </StackPanel>
+    </Border>
+</DataTemplate>
      <DataTemplate DataType="{x:Type props:NumericFieldPropertyViewModel}">
         <StackPanel Spacing="4">
             <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
@@ -116,7 +217,7 @@
     <DataTemplate DataType="{x:Type props:AnyFieldPropertyViewModel}">
     <StackPanel Spacing="4">
         <TextBlock Text="{Binding Schema.Name}" FontWeight="SemiBold" />
-        <TextBox Text="{Binding Value, Mode=TwoWay, Converter={StaticResource JsonElementToStringConverter}}"
+        <TextBox Text="{Binding Value, Mode=TwoWay, Converter={StaticResource JsonToStringElementConverter}}"
                  AcceptsReturn="True"
                  FontFamily="Consolas"
                  Height="60" />
@@ -183,6 +284,14 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </Expander>
+    <Button Content="▶ Execute" 
+        Command="{Binding ExecuteWorkflowCommand}"
+        Background="#4CAF50"
+        Foreground="White"
+        Padding="20,10"
+        CornerRadius="4"
+        HorizontalAlignment="Right"
+        Margin="10" />
                 </StackPanel>
             </ScrollViewer>
         </Border>
@@ -298,16 +407,18 @@
                            
                             CommandParameter="{Binding}" />
                      
-                        <Button Content="Настроить" Command="{Binding OpenNodeProperties}">
+<Button Content="Настроить" Command="{Binding OpenNodeProperties}">
     <Button.Flyout>
-        <Flyout>
-            <StackPanel Width="280" Spacing="10">
+        <Flyout Placement="Right"
+                ShowMode="Standard"
+                IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
+            <StackPanel MinWidth="580" MaxWidth="1080" Spacing="10">
                 <ItemsControl ItemsSource="{Binding PropertiesEditor.Fields}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <!-- ContentControl подставит правильный DataTemplate
-                                 из ресурсов выше, по реальному типу Content -->
-                            <ContentControl Content="{Binding}" Margin="0,0,0,8" />
+                            <ContentControl Content="{Binding}" 
+                                            Margin="0,0,0,8" 
+                                            HorizontalAlignment="Stretch" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

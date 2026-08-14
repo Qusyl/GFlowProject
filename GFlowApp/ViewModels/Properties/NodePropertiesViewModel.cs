@@ -47,5 +47,34 @@ namespace GFlowApp.ViewModels.Properties
             var result = Fields.ToDictionary(f => f.Schema.Name, f => f.ToJsonElement());
             _onApply?.Invoke(result);
         }
+
+        public JsonElement ToJsonElement()
+        {
+            var dictionary = new Dictionary<string, JsonElement>();
+
+            foreach (var field in Fields)
+            {
+                var name = field.Schema.Name;
+                var value = field.ToJsonElement();
+                dictionary.Add(name, value);
+            }
+            return JsonSerializer.SerializeToElement(dictionary);
+        }
+
+        public void LoadFromJsonElement(JsonElement element)
+        {
+            if (element.ValueKind != JsonValueKind.Object)
+            {
+                return;
+            }
+            foreach(var property in element.EnumerateObject())
+            {
+                var field = Fields.FirstOrDefault(f => f.Schema.Name == property.Name);
+                if (field != null)
+                {
+                    field.LoadFromJson(property.Value);
+                }
+            }
+        }
     }
 }

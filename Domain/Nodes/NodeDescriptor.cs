@@ -6,7 +6,7 @@ namespace Domain.Nodes
           string DisplayName,
         
           NodeCategory NodeCategory,
-          IReadOnlyCollection<PortsDescriptor> Ports)
+          IList<PortsDescriptor> Ports)
     {
         public bool HasOutput(string portName) => Ports.Any(p => (p.PortName== portName) && (p.PortDirection is PortsDirection.Output));
         public bool HasInput(string portName) => Ports.Any(p => (p.PortName == portName) && (p.PortDirection is PortsDirection.Input));

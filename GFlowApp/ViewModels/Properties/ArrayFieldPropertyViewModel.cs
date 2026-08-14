@@ -35,5 +35,10 @@ namespace GFlowApp.ViewModels.Properties
 
             return JsonSerializer.SerializeToElement(values);
         }
+
+        public override void LoadFromJson(JsonElement element)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
