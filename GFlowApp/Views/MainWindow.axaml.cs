@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using GFlowApp.Services;
 using GFlowApp.ViewModels;
 using System;
 using System.Diagnostics;
@@ -46,7 +47,7 @@ public partial class MainWindow : Window
     private void Node_PointerMoved(object? sender, PointerEventArgs args)
     {
         System.Console.WriteLine($"Началась движуха, block is null - {_draggedBlock is null}");
-        if(_draggedBlock is null || sender is not Border border)
+        if (_draggedBlock is null || sender is not Border border)
         {
             return;
         }
@@ -60,6 +61,19 @@ public partial class MainWindow : Window
         _draggedBlock.X = _dragStartBlockPos.X + delta.X;
         _draggedBlock.Y = _dragStartBlockPos.Y + delta.Y;
 
+    }
+    private void OnPortClick(object? sender, RoutedEventArgs args)
+    {
+        var button = sender as Button;
+
+        var port = button?.DataContext as PortViewModel;
+
+        var block = button?.Tag as BlockViewModel;
+        if (block != null && port != null && DataContext is MainViewModel vm)
+    {
+        var argms = new PortClickedArgs { Block = block, Port = port };
+        vm.PortClickedCommand.Execute(args);
+    }
     }
     private void Node_PointerReleased(object? sender, PointerReleasedEventArgs args)
     {

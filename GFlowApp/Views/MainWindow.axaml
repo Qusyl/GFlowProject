@@ -5,7 +5,7 @@
         xmlns:props="using:GFlowApp.ViewModels.Properties"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="using:GFlowApp.Services"
-      
+        x:Name="Root"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
         x:Class="GFlowApp.Views.MainWindow"
@@ -17,6 +17,7 @@
         <Window.Resources>
             <local:JsonToStringElementConverter x:Key="JsonToStringElementConverter"/>
             <local:IsZeroElementConverter x:Key="IsZeroElementConverter"/>
+            <local:PortsClickedArgsConverter x:Key="PortsClickedArgsConverter"/>
     </Window.Resources>
     <Window.DataTemplates>
 <DataTemplate DataType="{x:Type props:TextFieldPropertyViewModel}">
@@ -345,6 +346,7 @@
 
         </ItemsControl.ItemsPanel>
 
+       
 
         <ItemsControl.Styles>
 
@@ -383,56 +385,78 @@
                     PointerMoved="Node_PointerMoved"
                     >
                   
-                    <StackPanel
-                        HorizontalAlignment="Stretch"
-                      >
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            
-                            FontSize="15"
-                            Text="{Binding NodeType}" />
+                    <Grid>
+                         <TextBlock 
+        Text="{Binding #Root.DataContext.IsConnectionMode}"
+        FontSize="20"
+        >
 
-                        <!-- PORTS -->
-                        
-                           
-                            <Button
-                            HorizontalAlignment="Right"
-                            Margin="0,0,-20,0"
-                            Width="20"
-                            Height="20"
-                            CornerRadius="20"
-                            Background="#EE690B"
-                            Command="{Binding $parent[ItemsControl].DataContext.PortClickedCommand}"
-                           
-                            CommandParameter="{Binding}" />
-                     
-<Button Content="Настроить" Command="{Binding OpenNodeProperties}">
-    <Button.Flyout>
-        <Flyout Placement="Right"
-                ShowMode="Standard"
-                IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
-            <StackPanel MinWidth="580" MaxWidth="1080" Spacing="10">
-                <ItemsControl ItemsSource="{Binding PropertiesEditor.Fields}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ContentControl Content="{Binding}" 
-                                            Margin="0,0,0,8" 
-                                            HorizontalAlignment="Stretch" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+        </TextBlock>
 
-                <Button Content="Применить"
-                        Command="{Binding PropertiesEditor.ApplyCommand}" />
-            </StackPanel>
-        </Flyout>
-    </Button.Flyout>
-</Button>
-                         <!-- Toggle mode -->
-                        <Button Command="{Binding $parent[ItemsControl].DataContext.ToggleConnectionMode}" CommandParameter="{Binding}"/>
+    <!-- Название -->
+    <TextBlock
+        Text="{Binding NodeType}"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Top"
+        FontSize="15"/>
 
-                    </StackPanel>
+   <!-- INPUT PORTS -->
+<ItemsControl
+    ItemsSource="{Binding InputPorts}"
+    HorizontalAlignment="Left"
+    VerticalAlignment="Center">
+    <ItemsControl.ItemTemplate>
+        <DataTemplate>
+            <Button
+                Width="20"
+                Height="20"
+                Background="#E30B0B"
+                Content="I">
+                <Button.Command>
+                    <Binding Path="#Root.DataContext.PortClickedCommand" 
+                             RelativeSource="{RelativeSource FindAncestor, AncestorType=Window}"/>
+                </Button.Command>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource PortsClickedArgsConverter}">
+                        <Binding Path="DataContext" 
+                                 RelativeSource="{RelativeSource FindAncestor, AncestorType=ItemsControl}"/>
+                        <Binding />
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+        </DataTemplate>
+    </ItemsControl.ItemTemplate>
+</ItemsControl>
+
+<!-- OUTPUT PORTS -->
+<ItemsControl
+    ItemsSource="{Binding OutputPorts}"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Center">
+    <ItemsControl.ItemTemplate>
+        <DataTemplate>
+            <Button
+                Width="20"
+                Height="20"
+                Background="#EE690B"
+                Content="O">
+                <Button.Command>
+                    <Binding Path="#Root.DataContext.PortClickedCommand" 
+                             RelativeSource="{RelativeSource FindAncestor, AncestorType=Window}"/>
+                </Button.Command>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource PortsClickedArgsConverter}">
+                        <Binding Path="DataContext" 
+                                 RelativeSource="{RelativeSource FindAncestor, AncestorType=ItemsControl}"/>
+                        <Binding />
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+        </DataTemplate>
+    </ItemsControl.ItemTemplate>
+</ItemsControl>
+
+</Grid>
                     
                 </Border>
 

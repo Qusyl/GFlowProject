@@ -6,10 +6,15 @@ namespace GFlowApp.ViewModels;
 public partial class ConnectionViewModel : ObservableObject
 {
     [ObservableProperty]
-    private BlockViewModel startBlock = null!;
+    private BlockViewModel _startBlock = null!;
 
     [ObservableProperty]
-    private BlockViewModel endBlock = null!;
+    private BlockViewModel _endBlock = null!;
+
+    [ObservableProperty]
+    private PortViewModel _startPort = null!;
+    [ObservableProperty]
+    private PortViewModel _endPort = null!;
 
     public Point StartPoint =>
         new(
@@ -23,10 +28,15 @@ public partial class ConnectionViewModel : ObservableObject
 
     public ConnectionViewModel(
         BlockViewModel startBlock,
-        BlockViewModel endBlock)
+        BlockViewModel endBlock,
+        PortViewModel startPort,
+        PortViewModel endPort)
     {
         StartBlock = startBlock;
         EndBlock = endBlock;
+
+        StartPort = startPort;
+        EndPort = endPort;
 
         StartBlock.PropertyChanged += Block_PropertyChanged;
         EndBlock.PropertyChanged += Block_PropertyChanged;

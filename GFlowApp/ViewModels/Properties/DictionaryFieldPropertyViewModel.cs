@@ -20,7 +20,7 @@ namespace GFlowApp.ViewModels.Properties
         public DictionaryFieldPropertyViewModel(PropertySchema schema, JsonElement? element, Dictionary<string, List<PropertyVariant>> references) : base(schema)
         {
             _references = references;
-            _elementSchema = schema;
+            _elementSchema = schema.ElementSchema!;
            if(element.HasValue && element.Value.ValueKind == JsonValueKind.Object)
             {
                 foreach(var property in element.Value.EnumerateObject())
@@ -63,7 +63,7 @@ namespace GFlowApp.ViewModels.Properties
             
             foreach(var property in element.EnumerateObject())
             {
-                var field = PropertyFieldViewModelFactory.Create(Schema.ElementSchema!, element, new());
+                var field = PropertyFieldViewModelFactory.Create(Schema.ElementSchema!, element, _references);
 
                 Values.Add(new DictionaryItemViewModel(property.Name, field, this));
             }

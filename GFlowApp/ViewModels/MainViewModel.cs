@@ -29,7 +29,17 @@ public partial class MainViewModel : ViewModelBase
 
     public ObservableCollection<BlockViewModel> Blocks { get; }
 
+    public ObservableCollection<Edge> Edges { get;}
+
     public ObservableCollection<ConnectionViewModel> Connections { get; }
+
+    private BlockViewModel? _selectedStartBlock;
+
+    private BlockViewModel? _selectedEndBlock;
+
+    private PortViewModel? _selectedStartPort;
+
+    private PortViewModel? _selectedEndPort;
 
     [ObservableProperty]
     private string? selectedItem;
@@ -37,25 +47,41 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel(IClientService clientService)
     {
         _serviceClient = clientService;
-        ActionItems = new ObservableCollection<BlockItem>
+        ActionItems = InitializeBlockComponent(new List<(BlockTypes type, NodeCategory category)>
         {
-            new BlockItem(new BlockViewModel("SqlAction",NodeCategory.Action ,Brushes.Red, 500, 500, _serviceClient ) ,"Action"),
-            new BlockItem(new BlockViewModel("HttpAction",NodeCategory.Action,Brushes.Red, 500, 500,_serviceClient ), "Action")
-        };
-        LogicItems = new ObservableCollection<BlockItem>
+            (BlockTypes.SqlAction, NodeCategory.Action),
+             (BlockTypes.HttpAction, NodeCategory.Action)
+        });
+        LogicItems = InitializeBlockComponent(new List<(BlockTypes type, NodeCategory category)>
         {
-            new BlockItem(new BlockViewModel("CompareLogic",NodeCategory.Logic ,Brushes.Yellow, 500, 500, _serviceClient) ,"Logic")
-        };
-        TriggerItems = new ObservableCollection<BlockItem>
+            (BlockTypes.CompareLogic, NodeCategory.Logic),
+        });
+
+        TriggerItems = InitializeBlockComponent(new List<(BlockTypes type, NodeCategory category)>
         {
-             new BlockItem(new BlockViewModel("ManualTrigger",NodeCategory.Trigger ,Brushes.Red, 500, 500, _serviceClient),"Trigger"),
-        };
+            (BlockTypes.ManualTrigger, NodeCategory.Trigger),
+        });
         Blocks = new ObservableCollection<BlockViewModel>();
+        Edges = new();
 
         Connections =
             new ObservableCollection<ConnectionViewModel>();
 
-        SelectedItem = TriggerItems[0].Model.NodeType;
+        SelectedItem = TriggerItems[0].Model.NodeType.ToString();
+
+    }
+    private ObservableCollection<BlockItem> InitializeBlockComponent(List<(BlockTypes type, NodeCategory category)> blocks)
+    {
+        var blocksColl = new ObservableCollection<BlockItem>();
+        foreach (var block in blocks)
+        {
+            blocksColl.Add(
+             new BlockItem(
+             BlockFactory.Create(block.type, _serviceClient),
+             block.category.ToString()));
+        }
+        return blocksColl;
+         
     }
 
     [RelayCommand]
@@ -67,16 +93,20 @@ public partial class MainViewModel : ViewModelBase
         foreach (var block in Blocks)
         {
             var node = new NodeExecution(
-                new Node(type: block.NodeType,
+                new Node(type: block.NodeType.ToString(),
                 properties: block.LoadProperties()),
 
-                new NodeDescriptor(DisplayName: block.NodeType, NodeCategory: block.Category, new List<PortsDescriptor>())
+                new NodeDescriptor(DisplayName: block.NodeType.ToString(), NodeCategory: block.Category, new List<PortsDescriptor>())
             );
             nodes.Add(node);
         }
         var workflowDto = new WorkflowDto(nodes,edges );
     }
 
+    public void AddEdge(PortsDescriptor From, PortsDescriptor To, int NodeIdFrom, int NodeIdTo)
+    {
+        Edges.Add(new Edge(NodeIdFrom, NodeIdTo, From.PortName, To.PortName));
+    }
 
     [RelayCommand]
     public void ToggleConnectionMode()
@@ -96,90 +126,79 @@ public partial class MainViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void AddBlock(string blockType)
+    private void AddBlock(BlockTypes blockType)
     {
         Console.WriteLine(
             $"Добавлен блок {blockType}");
-
-        var random = new Random();
-
-   
-
-        var randX = random.Next(100, 700);
-        var randY = random.Next(100, 500);
-
-        ( IImmutableSolidColorBrush color, NodeCategory category ) = blockType switch
-        {
-            string s when s.Contains("Action") => (Brushes.Red, NodeCategory.Action),
-            string s when s.Contains("Logic") => (Brushes.Yellow, NodeCategory.Logic),
-            string s when s.Contains("Trigger") => (Brushes.Aquamarine, NodeCategory.Trigger),
-                _ => throw new NotSupportedException("Not supported block type") 
-        }; 
-
-
-        Blocks.Add(
-            new BlockViewModel(
-                blockType,
-                category,
-                color,
-                randX,
-                randY,
-                 _serviceClient));
+        Blocks.Add(BlockFactory.Create(blockType, _serviceClient));
     }
 
     [RelayCommand]
-    private void PortClicked(BlockViewModel block)
+    public void PortClicked(PortClickedArgs args)
     {
 
-      
-            
-
-        
         if (!IsConnectionMode)
         {
-            Console.WriteLine(
-                "Connection mode is OFF");
-
-            return;
+            ToggleConnectionMode();
+            System.Console.WriteLine($"Connection mode is {IsConnectionMode}");
+           
         }
+        var block = args.Block;
+        var port = args.Port;
+       
 
-  
-        if (_selectedBlock == null)
+        if (_selectedStartBlock is null)
         {
-            _selectedBlock = block;
-            block.IsSelected = true;
+            if (port.Direction != PortsDirection.Output)
+            {
+                return;
 
+            }
             
-               
-
-            return;
+                    _selectedStartBlock = block;
+                    _selectedStartPort = port;
+                    block.IsSelected = true;
+                    port.IsConnected = true;
+                    return;
+           
         }
-
-
-        if (_selectedBlock == block)
+        if (_selectedStartBlock == block)
         {
+            _selectedStartBlock = null;
+            _selectedStartPort = null;
             block.IsSelected = false;
-
-            _selectedBlock = null;
-
-            Console.WriteLine(
-                "Connection cancelled");
-
+            port.IsConnected = false;
             return;
         }
+        if (port.Direction != PortsDirection.Input)
+        {
+            return;
+        }
+        _selectedEndBlock = block;
+        _selectedEndPort = port;
+        var connection = new ConnectionViewModel(
+            _selectedStartBlock,
 
-     
-        var connection =
-            new ConnectionViewModel(
-                _selectedBlock,
-                block);
+            _selectedEndBlock,
 
+            _selectedStartPort!,
+
+            _selectedEndPort
+        );
         Connections.Add(connection);
+        AddEdge(
+        new PortsDescriptor(_selectedStartPort!.PortName, _selectedStartPort.Direction),
+        new PortsDescriptor(_selectedEndPort.PortName, _selectedEndPort.Direction),
+         _selectedStartBlock.NodeId, _selectedEndBlock.NodeId);
 
-        _selectedBlock.IsSelected = false;
+        _selectedStartBlock.IsSelected = false;
+        _selectedStartPort.IsConnected = false;
 
-        _selectedBlock = null;
+        _selectedStartBlock = null;
+
+        _selectedStartPort = null;
 
         IsConnectionMode = false;
+        }
+        
     }
-}

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -9,6 +9,7 @@ using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Domain.Nodes;
+using Domain.Ports;
 using GFlowApp.Services;
 using GFlowApp.ViewModels.Properties;
 
@@ -22,13 +23,17 @@ namespace GFlowApp.ViewModels
 
         [ObservableProperty]
 
-        public partial string NodeType { get; set; }
+        public partial BlockTypes NodeType { get; set; }
+
+        [ObservableProperty]
+        private ObservableCollection<PortViewModel> _inputPorts = new();
+
+        [ObservableProperty]
+        private ObservableCollection<PortViewModel> _outputPorts = new();
 
         public NodeCategory Category { get; }
         [ObservableProperty]
         private bool _isFlyoutOpen;
-
-
 
         [ObservableProperty]
         private Dictionary<string, JsonElement> _properties = new();
@@ -46,7 +51,7 @@ namespace GFlowApp.ViewModels
 
         [ObservableProperty]
         public partial bool IsSelected { get; set; } = false;
-        public BlockViewModel(string nodeType,NodeCategory category ,IBrush color, double x, double y, IClientService clientService)
+        public BlockViewModel(BlockTypes nodeType, NodeCategory category, IBrush color, double x, double y, IClientService clientService, List<PortsDescriptor> ports)
         {
             _clientService = clientService;
             Category = category;
@@ -54,7 +59,21 @@ namespace GFlowApp.ViewModels
             X = x;
             Y = y;
             Color = color;
-        
+            InitializePorts(ports);
+        }
+        private void InitializePorts(List<PortsDescriptor> ports)
+        {
+            foreach (var port in ports)
+            {
+                if (port.PortDirection is PortsDirection.Input)
+                {
+                    _inputPorts.Add(new PortViewModel(port.PortName, PortsDirection.Input));
+                }
+                else
+                {
+                    _outputPorts.Add(new PortViewModel(port.PortName, PortsDirection.Output));
+                }
+            }
         }
         public Dictionary<string, object?> LoadProperties()
         {
@@ -78,7 +97,7 @@ namespace GFlowApp.ViewModels
         }
         public NodeExecutionDto ToDto()
         => new NodeExecutionDto(
-         NodeType,
+         NodeType.ToString(),
         Properties.ToDictionary(kvp => kvp.Key, kvp => (object?)kvp.Value));
 [RelayCommand]
 private void OpenFlyout()
@@ -86,8 +105,7 @@ private void OpenFlyout()
     IsFlyoutOpen = true;
 }
 
-
-[RelayCommand]
+     
 private void CloseFlyout()
 {
     IsFlyoutOpen = false;
@@ -96,7 +114,7 @@ private void CloseFlyout()
         public async Task OpenNodeProperties()
         {
             IsFlyoutOpen = true;
-            var schema = await _clientService.GetSchemaAsync(NodeType);
+            var schema = await _clientService.GetSchemaAsync(NodeType.ToString());
 
             if(schema is not null)
             {
