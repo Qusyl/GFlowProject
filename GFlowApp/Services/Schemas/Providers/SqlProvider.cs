@@ -19,10 +19,16 @@ namespace GFlowApp.Services.Schemas.Providers
             {
                 Properties =
         new List<PropertySchema>
-     {
+        {
 
-
-         new PropertySchema
+        new PropertySchema
+        {
+            Type = "object",
+            Name = "SqlConfiguration",
+            IsRequired = true,
+Properties = new List<PropertySchema>
+{
+     new PropertySchema
          {
              Type = "object",
              Name = "Definition",
@@ -63,7 +69,10 @@ namespace GFlowApp.Services.Schemas.Providers
                  }
              },
  
-         },
+         }
+        }
+        }
+        ,
 
 
 

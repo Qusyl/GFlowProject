@@ -18,11 +18,13 @@ public class WorkflowBuilder
             if (IncomingEdges.ContainsKey(edge.ToNode))
             {
                 IncomingEdges[edge.ToNode].Add(edge);
+                continue;
             }
             else
             {
                 IncomingEdges.Add(edge.ToNode, new());
                 IncomingEdges[edge.ToNode].Add(edge);
+               
             }
             if (OutcomingEdges.ContainsKey(edge.FromNode))
             {

@@ -9,8 +9,11 @@ namespace GFlowApp.ViewModels
 {
     public partial class PortViewModel : ObservableObject
     {
+     
         [ObservableProperty]
         private string _portName;
+
+        
 
         [ObservableProperty]
         private PortsDirection _direction;
@@ -22,6 +25,7 @@ namespace GFlowApp.ViewModels
         {
             PortName = portName;
             Direction = direction;
+           
         }
     }
 }

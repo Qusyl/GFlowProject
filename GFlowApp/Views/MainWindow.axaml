@@ -386,12 +386,7 @@
                     >
                   
                     <Grid>
-                         <TextBlock 
-        Text="{Binding #Root.DataContext.IsConnectionMode}"
-        FontSize="20"
-        >
-
-        </TextBlock>
+               
 
     <!-- Название -->
     <TextBlock
@@ -455,7 +450,44 @@
         </DataTemplate>
     </ItemsControl.ItemTemplate>
 </ItemsControl>
+ <Button
+                Content="Настроить"
+                Command="{Binding OpenNodeProperties}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,10">
+                
+                <Button.Flyout>
+                    <Flyout
+                        Placement="Right"
+                        ShowMode="Standard"
+                        IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
+                        
+                        <StackPanel MinWidth="580" MaxWidth="1080" Spacing="10">
+                            <ItemsControl ItemsSource="{Binding PropertiesEditor.Fields}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentControl
+                                            Content="{Binding}"
+                                            Margin="0,0,0,8"
+                                            HorizontalAlignment="Stretch" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
 
+                           
+                            <Button
+                                Content="Применить"
+                                Command="{Binding PropertiesEditor.ApplyCommand}"
+                                HorizontalAlignment="Right"
+                                Padding="20,8"
+                                Background="#EE690B"
+                                Foreground="White"
+                                CornerRadius="4" />
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
 </Grid>
                     
                 </Border>

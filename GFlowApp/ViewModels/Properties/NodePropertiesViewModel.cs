@@ -17,7 +17,8 @@ namespace GFlowApp.ViewModels.Properties
 
         public ObservableCollection<PropertyFieldViewModel> Fields { get; } = new();
 
-        private NodeTypeSchema? _schema;
+        [ObservableProperty]
+        private NodeTypeSchema? _schema = new();
         private Action<Dictionary<string, JsonElement>>? _onApply;
 
         public void LoadSchema(

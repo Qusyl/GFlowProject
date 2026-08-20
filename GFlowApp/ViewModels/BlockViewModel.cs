@@ -2,22 +2,28 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Application.Dto;
+using Avalonia.Controls;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Domain.Nodes;
 using Domain.Ports;
 using GFlowApp.Services;
+using GFlowApp.Services.Window;
 using GFlowApp.ViewModels.Properties;
+using GFlowApp.Views;
 
 namespace GFlowApp.ViewModels
 {
     public partial class BlockViewModel : ObservableObject
     {
         private readonly IClientService _clientService;
+
+        private readonly IWindowService _parentWindow;
         [ObservableProperty]
         public partial int NodeId { get; set; }
 
@@ -38,7 +44,8 @@ namespace GFlowApp.ViewModels
         [ObservableProperty]
         private Dictionary<string, JsonElement> _properties = new();
 
-        public NodePropertiesViewModel PropertiesEditor { get; } = new();
+        [ObservableProperty]
+        private NodePropertiesViewModel _propertiesEditor  = new();
 
         [ObservableProperty]
         public partial double X { get; set; }
@@ -51,9 +58,11 @@ namespace GFlowApp.ViewModels
 
         [ObservableProperty]
         public partial bool IsSelected { get; set; } = false;
-        public BlockViewModel(BlockTypes nodeType, NodeCategory category, IBrush color, double x, double y, IClientService clientService, List<PortsDescriptor> ports)
+        public BlockViewModel(int id,IWindowService parentWindow,BlockTypes nodeType, NodeCategory category, IBrush color, double x, double y, IClientService clientService, List<PortsDescriptor> ports)
         {
+            _parentWindow = parentWindow;
             _clientService = clientService;
+            NodeId = id;
             Category = category;
             NodeType = nodeType;
             X = x;
@@ -105,21 +114,39 @@ private void OpenFlyout()
     IsFlyoutOpen = true;
 }
 
-     
-private void CloseFlyout()
-{
-    IsFlyoutOpen = false;
-}
+
+
         [RelayCommand]
         public async Task OpenNodeProperties()
         {
-            IsFlyoutOpen = true;
-            var schema = await _clientService.GetSchemaAsync(NodeType.ToString());
 
-            if(schema is not null)
+            var schema = await _clientService.GetSchemaAsync(NodeType.ToString());
+            if (schema is null)
             {
-                PropertiesEditor.LoadSchema(schema, Properties, OnPropertiesApplied);
+                return;
             }
+
+            PropertiesEditor.LoadSchema(schema, Properties, OnPropertiesApplied);
+            var dialog = new DialogWindow();
+
+            dialog.DataContext = new PropertyDialogViewModel
+            {
+                BlockName = NodeType.ToString(),
+                Fields = PropertiesEditor.Fields
+            };
+
+            var vm = (PropertyDialogViewModel)dialog.DataContext;
+            vm.OnApply += () =>
+            {
+                PropertiesEditor.ApplyCommand.Execute(null);
+                dialog.Close();
+            };
+            vm.OnDecline += () =>
+            {
+                dialog.Close();
+            };
+            var mWin = _parentWindow.GetMainWindow();
+            await dialog.ShowDialog(mWin);
         }
 
         private void OnPropertiesApplied(Dictionary<string, JsonElement> properties)
@@ -127,7 +154,7 @@ private void CloseFlyout()
             Properties = properties;
             OnPropertyChanged(nameof(Properties));
             System.Console.WriteLine($"Блок {NodeType} обновлен!");
-            IsFlyoutOpen = false;
+           
         }
     }
 }

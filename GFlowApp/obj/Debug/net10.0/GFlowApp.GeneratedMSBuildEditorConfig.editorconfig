@@ -9,7 +9,7 @@ build_property.AvaloniaNameGeneratorAttachDevTools = true
 build_property.AvaloniaUseCompiledBindingsByDefault = true
 build_property.AvaloniaMainPackageVersion = 12.1.1
 build_property.AvaloniaPreviewerNetCoreToolPath = /home/denis/.nuget/packages/avalonia/12.1.1/buildTransitive//../tools/net8.0/designer/Avalonia.Designer.HostApp.dll
-build_property.AvaloniaResourcePaths = /home/denis/Documents/Diploma/GFlow/GFlowApp/Assets/avalonia-logo.ico,/home/denis/Documents/Diploma/GFlow/GFlowApp/App.axaml,/home/denis/Documents/Diploma/GFlow/GFlowApp/Views/MainWindow.axaml
+build_property.AvaloniaResourcePaths = /home/denis/Documents/Diploma/GFlow/GFlowApp/Assets/avalonia-logo.ico
 build_property.MvvmToolkitEnableINotifyPropertyChangingSupport = true
 build_property._MvvmToolkitIsUsingWindowsRuntimePack = false
 build_property.CsWinRTComponent = 
@@ -36,4 +36,7 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [/home/denis/Documents/Diploma/GFlow/GFlowApp/Views/MainWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/home/denis/Documents/Diploma/GFlow/GFlowApp/Views/PopertiesDialogWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

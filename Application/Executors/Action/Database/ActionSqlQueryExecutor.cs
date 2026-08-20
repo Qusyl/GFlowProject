@@ -12,16 +12,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Executors.Action.Database
 {
-    [NodeExecutor("Sql")]
+    [NodeExecutor("SqlAction")]
     public class ActionSqlQueryExecutor : INodeExecutors
     {
         private readonly ISqlDialectFactory _dialectFactorty;
 
-        private readonly ISqlQueryHandler _queryHandler;
-        public ActionSqlQueryExecutor(ISqlDialectFactory dialectFactory, ISqlQueryHandler handler)
+        private readonly IServiceProvider _serviceProvider;
+        public ActionSqlQueryExecutor(ISqlDialectFactory dialectFactory, IServiceProvider provider)
         {
             _dialectFactorty = dialectFactory;
-            _queryHandler = handler;
+            _serviceProvider = provider;
         }
         public async Task<NodeResult> ExecuteAsync(NodeExecutionContext context)
         {
@@ -41,8 +41,12 @@ namespace Application.Executors.Action.Database
                 await sqlConnection.OpenAsync();
 
                 var dialect = _dialectFactorty.GetDialect(configuration.SqlConnection.DatabaseType);
-
-                var queryResult = await _queryHandler.HandleAsync(definition, sqlConnection, dialect);
+                var handler = _serviceProvider.GetRequiredService<ISqlQueryHandler>() as RawSqlQueryHandler;
+                if(handler is null)
+                {
+                    throw new NullReferenceException("Handler not found");
+                }
+                var queryResult = await handler.HandleAsync(definition, sqlConnection, dialect);
                
 
                 context.WorkflowContext.SetVariable("QueryResult", new VariableValue(new VariableDefenition("QueryResult", Logic.Logics.ArgumentType.Integer), queryResult));

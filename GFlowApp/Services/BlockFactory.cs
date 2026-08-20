@@ -2,16 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Controls;
 using Avalonia.Media;
 using Domain.Nodes;
 using Domain.Ports;
+using GFlowApp.Services.Window;
 using GFlowApp.ViewModels;
 
 namespace GFlowApp.Services
 {
     public static class BlockFactory
     {
-        public static BlockViewModel Create(BlockTypes blockType, IClientService clientService)
+        private static int _id = 0;
+        public static BlockViewModel Create(IWindowService parentWindow,BlockTypes blockType, IClientService clientService)
         {
             var random = new Random();
             var randX = random.Next(100, 700);
@@ -19,7 +22,7 @@ namespace GFlowApp.Services
 
             (IImmutableSolidColorBrush color, NodeCategory category) = SelectColorAndCategory(blockType);
             List<PortsDescriptor> ports = BuildPorts(blockType);
-            return new BlockViewModel(blockType, category, color, randX, randY, clientService, ports);
+            return new BlockViewModel(_id++,parentWindow,blockType, category, color, randX, randY, clientService, ports);
         }
         private static (IImmutableSolidColorBrush color, NodeCategory category) SelectColorAndCategory(BlockTypes blockType)
         {

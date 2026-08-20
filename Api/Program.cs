@@ -27,6 +27,7 @@ builder.Services.AddHttpClient<ActionHttpRequestExecutor>().ConfigurePrimaryHttp
 
 builder.Services.RegisterAllExecutors();
 builder.Services.AddScoped<ISqlQueryHandler, RawSqlQueryHandler>();
+
 builder.Services.RegisterAllSchemaProviders();
 builder.Services.AddOpenApi();
 builder.Services.AddOpenApiDocument(config =>

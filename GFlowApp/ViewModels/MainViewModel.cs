@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Application.Dto;
+using Avalonia.Controls;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -11,13 +13,17 @@ using Domain.Graph;
 using Domain.Nodes;
 using Domain.Ports;
 using GFlowApp.Services;
+using GFlowApp.Services.Window;
 
 namespace GFlowApp.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
     private readonly IClientService _serviceClient;
-    private BlockViewModel? _selectedBlock;
+
+    private readonly IWindowService _windowService;
+
+       private BlockViewModel? _selectedBlock;
 
     [ObservableProperty]
     private bool _isConnectionMode;
@@ -29,7 +35,9 @@ public partial class MainViewModel : ViewModelBase
 
     public ObservableCollection<BlockViewModel> Blocks { get; }
 
-    public ObservableCollection<Edge> Edges { get;}
+    public ObservableCollection<Edge> Edges { get; }
+    
+    public ObservableCollection<NodeExecution> PreparedNodes { get; }
 
     public ObservableCollection<ConnectionViewModel> Connections { get; }
 
@@ -44,9 +52,10 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private string? selectedItem;
 
-    public MainViewModel(IClientService clientService)
+    public MainViewModel(IClientService clientService, IWindowService windowService)
     {
         _serviceClient = clientService;
+        _windowService = windowService;
         ActionItems = InitializeBlockComponent(new List<(BlockTypes type, NodeCategory category)>
         {
             (BlockTypes.SqlAction, NodeCategory.Action),
@@ -63,6 +72,7 @@ public partial class MainViewModel : ViewModelBase
         });
         Blocks = new ObservableCollection<BlockViewModel>();
         Edges = new();
+        PreparedNodes = new();
 
         Connections =
             new ObservableCollection<ConnectionViewModel>();
@@ -77,30 +87,47 @@ public partial class MainViewModel : ViewModelBase
         {
             blocksColl.Add(
              new BlockItem(
-             BlockFactory.Create(block.type, _serviceClient),
+             BlockFactory.Create(_windowService,block.type, _serviceClient),
              block.category.ToString()));
         }
         return blocksColl;
          
     }
+private NodeExecution BuildNodeExecution(BlockViewModel block)
+{
+    var ports = new List<PortsDescriptor>();
+    foreach (var input in block.InputPorts)
+        ports.Add(new PortsDescriptor(input.PortName, input.Direction));
+    foreach (var output in block.OutputPorts)
+        ports.Add(new PortsDescriptor(output.PortName, output.Direction));
 
+    var node = new Node(block.NodeId, block.NodeType.ToString(), block.LoadProperties()); // ← актуальный вызов, прямо перед отправкой
+    var descriptor = new NodeDescriptor(block.NodeType.ToString(), block.Category, ports);
+
+    return new NodeExecution(node, descriptor);
+}
     [RelayCommand]
     public async Task ExecuteWorkflow()
     {
-        var nodes = new List<NodeExecution>();
-        var edges = new List<Edge>();
+     var preparedNodes = Blocks.Select(BuildNodeExecution).ToList();
+     var workflowDto = new WorkflowDto(preparedNodes, Edges);
+        
 
-        foreach (var block in Blocks)
+        var result = await _serviceClient.ExecuteAsync(workflowDto);
+        System.Console.WriteLine("Результат получен!");
+
+        if(result is null)
         {
-            var node = new NodeExecution(
-                new Node(type: block.NodeType.ToString(),
-                properties: block.LoadProperties()),
-
-                new NodeDescriptor(DisplayName: block.NodeType.ToString(), NodeCategory: block.Category, new List<PortsDescriptor>())
-            );
-            nodes.Add(node);
+            System.Console.WriteLine("Result is empty");
         }
-        var workflowDto = new WorkflowDto(nodes,edges );
+        else if(result!.Exceptions is not null)
+        {
+            int index = 1;
+            foreach(var error in result!.Exceptions!)
+            {
+                    System.Console.WriteLine($"[{index}] {error.Message}");
+            }
+        }
     }
 
     public void AddEdge(PortsDescriptor From, PortsDescriptor To, int NodeIdFrom, int NodeIdTo)
@@ -130,7 +157,8 @@ public partial class MainViewModel : ViewModelBase
     {
         Console.WriteLine(
             $"Добавлен блок {blockType}");
-        Blocks.Add(BlockFactory.Create(blockType, _serviceClient));
+        var createdNode = BlockFactory.Create(_windowService, blockType, _serviceClient);
+        Blocks.Add(createdNode);
     }
 
     [RelayCommand]
@@ -146,7 +174,7 @@ public partial class MainViewModel : ViewModelBase
         var block = args.Block;
         var port = args.Port;
        
-
+        System.Console.WriteLine($"Нажат порт {port.PortName} блока {block.NodeType} {block.NodeId}");
         if (_selectedStartBlock is null)
         {
             if (port.Direction != PortsDirection.Output)

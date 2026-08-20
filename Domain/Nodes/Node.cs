@@ -4,7 +4,7 @@ namespace Domain.Nodes
 {
     public class Node
     {
-        private static int _idCouter = 1;
+       
         public int Id { get;}
         public string Type { get; init; }
         public IReadOnlyDictionary<string, object?> Properties { get; init; }
@@ -14,9 +14,9 @@ namespace Domain.Nodes
             PropertyNameCaseInsensitive = true
         };
 
-    public Node(string type, IReadOnlyDictionary<string, object?> properties)
+    public Node(int id,string type, IReadOnlyDictionary<string, object?> properties)
         {
-            Id = ++_idCouter;
+            Id = id;
             Type = type;
             Properties = properties;
         }

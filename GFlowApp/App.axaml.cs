@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using GFlowApp.Services;
+using GFlowApp.Services.Window;
 using GFlowApp.ViewModels;
 using GFlowApp.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,15 +28,24 @@ public partial class App : Avalonia.Application
 
         services.AddSingleton<MainViewModel>();
 
+        services.AddSingleton<MainWindow>();
+
+        services.AddSingleton<IWindowService, WindowService>();
+
         Services = services.BuildServiceProvider();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var mainViewModel = Services.GetRequiredService<MainViewModel>();
-            desktop.MainWindow = new MainWindow
+            var mainWindow = new MainWindow
             {
                 DataContext = mainViewModel
             };
+            var wService = Services.GetRequiredService<IWindowService>() as WindowService;
+
+            wService?.SetMainWindow(mainWindow);
+            
+             desktop.MainWindow = mainWindow;
         }
 
         base.OnFrameworkInitializationCompleted();
